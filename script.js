@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Typing animation for hero section
     const typewriter = new Typewriter('.typewriter', {
-        strings: ['A Full Stack Developer', 'A Problem Solver', 'A Creative Thinker'],
+        strings: ['Aspiring Full Stack Developer','Code & Design Enthusiast'],
         autoStart: true,
         loop: true,
         delay: 75,
@@ -36,19 +36,23 @@ document.addEventListener("DOMContentLoaded", () => {
         duration: 1, 
         ease: "power3.out" 
     })
-    .from(".hero-content > *", {
+    .from(".hero-content > *:not(.hero-image):not(.profile-container)", {
         opacity: 0,
         y: 30,
         duration: 1,
         stagger: 0.2,
         ease: "back.out(1.7)"
-    })
-    .from(".profile-pic", {
-        scale: 0,
-        rotation: 360,
-        duration: 1.2,
-        ease: "elastic.out(1, 0.3)"
-    }, "-=1");
+    });
+
+    // Separate animation for the profile picture
+    gsap.from(".profile-pic", {
+        opacity: 0, /* Ensure it starts hidden */
+        scale: 0.5, /* Start smaller */
+        duration: 1, /* Shorter duration */
+        delay: 0.5, /* Add a slight delay after other elements start */
+        ease: "back.out(1.7)",
+        clearProps: "opacity,scale" /* Clear inline styles after animation */
+    });
 
     // Enhanced parallax effects
     gsap.utils.toArray('.parallax').forEach(layer => {
@@ -228,31 +232,46 @@ gsap.utils.toArray('.parallax-layer').forEach(layer => {
     });
 });
 
-// Initialize timeline animations
+// Timeline animation function
 const timelineAnimation = () => {
-    const timeline = document.querySelector('.timeline-line');
-    const items = document.querySelectorAll('.timeline-item');
+    const timelineItems = document.querySelectorAll('.timeline-item');
     
-    // Set initial timeline height
-    const timelineHeight = document.querySelector('.education-timeline').offsetHeight;
-    timeline.style.height = timelineHeight + 'px';
-    
-    // Initialize tilt effect
-    VanillaTilt.init(document.querySelectorAll(".timeline-item"), {
-        max: 5,
-        speed: 400,
-        glare: true,
-        "max-glare": 0.2
-    });
+    timelineItems.forEach((item, index) => {
+        // Animate the timeline line
+        if (index === 0) {
+            gsap.from('.timeline-line', {
+                scrollTrigger: {
+                    trigger: '.education-timeline',
+                    start: "top 80%"
+                },
+                height: 0,
+                duration: 1.5,
+                ease: "power2.inOut"
+            });
+        }
 
-    // Animate items on scroll
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
+        // Animate the timeline dots
+        gsap.from(item.querySelector('::before'), {
+            scrollTrigger: {
+                trigger: item,
+                start: "top 80%"
+            },
+            scale: 0,
+            duration: 0.5,
+            delay: index * 0.2 + 0.3,
+            ease: "back.out(1.7)"
         });
-    }, { threshold: 0.2 });
 
-    items.forEach(item => observer.observe(item));
+        // Animate the timeline cards with a subtle entrance
+        gsap.from(item.querySelector('.timeline-card'), {
+            scrollTrigger: {
+                trigger: item,
+                start: "top 80%"
+            },
+            y: 30,
+            duration: 0.8,
+            delay: index * 0.2,
+            ease: "power2.out"
+        });
+    });
 };

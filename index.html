@@ -28,6 +28,7 @@
                 <li><a href="#projects" class="nav-link">Projects</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
+            
             <div class="hamburger">
                 <span></span><span></span><span></span>
             </div>
@@ -37,16 +38,23 @@
     <section id="home" class="hero">
         <div class="hero-content">
             <div class="hero-text">
-                <h1>Hi, I'm <span class="highlight">Harsh Shrivastava</span></h1>
-                <h2 class="typewriter">A Web Developer</h2>
-                <p>Creating beautiful and functional web experiences</p>
+                <div class="greeting">Hello, I'm</div>
+                <h1 class="name-animation">
+                    <span class="highlight">Harsh Shrivastava</span>
+                </h1>
+                <div class="role-container">
+                    <h2 class="typewriter">Aspiring Full Stack Developer </h2>
+                </div>
+                <p class="hero-description">Crafting digital experiences through clean code and creative design</p>
                 <div class="cta-buttons">
                     <a href="#projects" class="btn primary">View My Work</a>
                     <a href="#contact" class="btn secondary">Contact Me</a>
                 </div>
             </div>
             <div class="hero-image">
-                <img src="Profile-Pic.jpg" alt="Profile Picture" class="profile-pic">
+                <div class="profile-container">
+                    <img src="Profile.jpg" alt="Profile Picture" class="profile-pic">
+                </div>
                 <div class="background-shape"></div>
             </div>
         </div>
@@ -59,27 +67,65 @@
         </div>
         <div class="about-content">
             <div class="about-text">
-                <p>Hi, I’m Harsh! 🚀 I’m a Computer Science Engineering Student passionate about building modern, interactive, and high-performance applications. I specialize in Frontend Development (HTML, CSS, JavaScript, React, SAP UI5, Fiori) .
+                <div class="about-intro">
+                    <p class="highlight-text">Aspiring Software Engineer | Specializing in Web Development, SAP, and Scalable Tech Solutions |     Parul Institute of Engineering and Technology</p>
+                </div>
+                <div class="about-details">
+                    <p>Hi, I'm Harsh – a passionate and driven technology enthusiast with a focus on web development and software engineering. Currently pursuing a B.Tech in Computer Science and Engineering (SAP), I specialize in building clean, efficient, and user-friendly websites using HTML, CSS, JavaScript, and TypeScript. I have a strong foundation in both frontend and backend development, with experience in creating dynamic web applications and innovative projects.I love turning complex ideas into simple, functional, and visually stunning solutions. I am always excited to explore new technologies, solve challenging problems, and continuously learn to stay ahead in this ever-evolving field.
 
-                    I love crafting seamless UI/UX designs, integrating AI, and developing scalable digital solutions. My goal is to create engaging user experiences with the latest web and mobile technologies.
-                    
-                    When I’m not coding, I’m exploring new tech trends, designing creative UI animations, or working on innovative projects. Let’s connect and build something amazing together! 🚀</p>
-            </div>
-            <div class="about-cards">
-                <div class="about-card">
-                    <i class="fas fa-code"></i>
-                    <h3>Web Development</h3>
-                    <p>Creating responsive websites</p>
+When I'm not coding, you'll likely find me exploring new tech trends, participating in hackathons, or experimenting with creative UI/UX designs. Let's connect and bring amazing ideas to life together!</p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">3+</span>
+                            <span class="stat-label">Personal Projects</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">4+</span>
+                            <span class="stat-label">Technologies</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">2+</span>
+                            <span class="stat-label">Years Learning</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="about-card">
-                    <i class="fas fa-mobile-alt"></i>
-                    <h3>Mobile First</h3>
-                    <p>Mobile-optimized solutions</p>
-                </div>
-                <div class="about-card">
-                    <i class="fas fa-layer-group"></i>
-                    <h3>UI/UX Design</h3>
-                    <p>Beautiful user interfaces</p>
+                <div class="about-cards">
+                    <div class="about-card" data-tilt>
+                        <div class="card-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Web Development</h3>
+                        <p>Creating responsive and modern websites with cutting-edge technologies</p>
+                        <div class="card-tags">
+                            <span>HTML5</span>
+                            <span>CSS3</span>
+                            <span>JavaScript</span>
+                        </div>
+                    </div>
+                    <div class="about-card" data-tilt>
+                        <div class="card-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Responsive Interfaces</h3>
+                        <p>Building layouts that adapt beautifully across all screen sizes.</p>
+                        <div class="card-tags">
+                            <span>Responsive</span>
+                            <span>Adaptive</span>
+                            <span>Progressive</span>
+                        </div>
+                    </div>
+                    <div class="about-card" data-tilt>
+                        <div class="card-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h3>UI/UX Design</h3>
+                        <p>Designing beautiful and intuitive user interfaces with modern aesthetics</p>
+                        <div class="card-tags">
+                            <span>Design</span>
+                            <span>Animation</span>
+                            <span>Interaction</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -102,7 +148,7 @@
                         <i class="fas fa-graduation-cap"></i>
                     </div>
                     <h3>Parul Institue of Engineering and Technology </h3>
-                    <p>Vadodara , Gujrat</p>
+                    <p>Vadodara , Gujarat</p>
                     <div class="education-content">
                         <h4>B.Tech in Computer Science specialization In SAP </h4>
                         <div class="skills-learned">
@@ -167,64 +213,105 @@
             <div class="section-line"></div>
         </div>
         <div class="skills-container">
-            <div class="skill-card html" data-aos="flip-left">
-                <div class="skill-icon">
-                    <i class="fab fa-html5"></i>
-                </div>
-                <h3>HTML</h3>
-                <div class="progress-wrapper">
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 95%"></div>
+            <div class="skill-category">
+                <h3 class="category-title">Programming Languages</h3>
+                <div class="skills-grid">
+                    <div class="skill-card html" data-tilt>
+                        <div class="skill-icon">
+                            <i class="fab fa-html5"></i>
+                        </div>
+                        <h3>HTML</h3>
+                        <div class="progress-wrapper">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 95%"></div>
+                            </div>
+                            <span class="progress-text">95%</span>
+                        </div>
+                        <div class="skill-details">
+                            
+                        </div>
                     </div>
-                    <span class="progress-text">95%</span>
-                </div>
-                <div class="skill-details">
-                    <p>Semantic HTML, Accessibility, SEO</p>
+                    <div class="skill-card css" data-tilt>
+                        <div class="skill-icon">
+                            <i class="fab fa-css3-alt"></i>
+                        </div>
+                        <h3>CSS</h3>
+                        <div class="progress-wrapper">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 90%"></div>
+                            </div>
+                            <span class="progress-text">90%</span>
+                        </div>
+                        <div class="skill-details">
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="skill-card js" data-tilt>
+                        <div class="skill-icon">
+                            <i class="fab fa-js"></i>
+                        </div>
+                        <h3>JavaScript</h3>
+                        <div class="progress-wrapper">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 70%"></div>
+                            </div>
+                            <span class="progress-text">70%</span>
+                        </div>
+                        <div class="skill-details">
+                            <p></p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="skill-card css" data-aos="flip-left" data-aos-delay="100">
-                <div class="skill-icon">
-                    <i class="fab fa-css3-alt"></i>
-                </div>
-                <h3>CSS</h3>
-                <div class="progress-wrapper">
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 90%"></div>
+
+            <div class="skill-category">
+                <h3 class="category-title"></h3>
+                <div class="skills-grid">
+                    <div class="skill-card java" data-tilt>
+                        <div class="skill-icon">
+                            <i class="fab fa-java"></i>
+                        </div>
+                        <h3>Java</h3>
+                        <div class="progress-wrapper">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 60%"></div>
+                            </div>
+                            <span class="progress-text">60%</span>
+                        </div>
+                        <div class="skill-details">
+                           
+                        </div>
                     </div>
-                    <span class="progress-text">90%</span>
-                </div>
-                <div class="skill-details">
-                    <p>Flexbox, Grid, Animations</p>
-                </div>
-            </div>
-            <div class="skill-card java" data-aos="flip-left" data-aos-delay="200">
-                <div class="skill-icon">
-                    <i class="fab fa-java"></i>
-                </div>
-                <h3>Java</h3>
-                <div class="progress-wrapper">
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 85%"></div>
+                    <div class="skill-card python" data-tilt>
+                        <div class="skill-icon">
+                            <i class="fab fa-python"></i>
+                        </div>
+                        <h3>Python</h3>
+                        <div class="progress-wrapper">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 70%"></div>
+                            </div>
+                            <span class="progress-text">70%</span>
+                        </div>
+                        <div class="skill-details">
+                            
+                        </div>
                     </div>
-                    <span class="progress-text">50%</span>
-                </div>
-                <div class="skill-details">
-                    
-                </div>
-            </div>
-            <div class="skill-card python" data-aos="flip-left" data-aos-delay="300">
-                <div class="skill-icon">
-                    <i class="fab fa-python"></i>
-                </div>
-                <h3>Python</h3>
-                <div class="progress-wrapper">
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 80%"></div>
+                    <div class="skill-card c" data-tilt>
+                        <div class="skill-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>C</h3>
+                        <div class="progress-wrapper">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 80%"></div>
+                            </div>
+                            <span class="progress-text">80%</span>
+                        </div>
+                        <div class="skill-details">
+                            
+                        </div>
                     </div>
-                    <span class="progress-text">80%</span>
-                </div>
-                <div class="skill-details">
-                    
                 </div>
             </div>
         </div>
@@ -238,50 +325,38 @@
         <div class="projects-container">
             <div class="project-card">
                 <div class="project-image">
-                    <img src="Freshcart.jpg" alt="Project 1">
+                    <img src="groqverse.png" alt="Project 1">
                     <div class="project-overlay">
                         <div class="project-links">
-                            <a href="#" class="btn small"><i class="fas fa-eye"></i> Live</a>
-                            <a href="#" class="btn small"><i class="fab fa-github"></i> Code</a>
+                            <a href="https://groqverse.onrender.com/" class="btn small"><i class="fas fa-eye"></i> Live</a>
+                            <a href="https://github.com/Harsh549100/GroqVerse" class="btn small"><i class="fab fa-github"></i> Code</a>
                         </div>
                     </div>
                 </div>
                 <div class="project-info">
-                    <h3>FRESH CART</h3>
-                    <p>Fresh Cart is an AI-powered grocery management web application designed to make shopping smarter, reduce food waste, and help users manage their grocery expenses efficiently. With an intuitive and modern UI built using HTML, CSS, and JavaScript, Fresh Cart offers Smart Lists that generate AI-powered shopping recommendations based on user preferences, ensuring a hassle-free shopping experience. The Expiry Tracking feature prevents food wastage by providing timely reminders about soon-to-expire items, allowing users to consume food before it spoils. To enhance financial control, the Budget Control tool enables users to set grocery budgets, track expenses, and receive insights on spending habits. Additionally, the Recipe Ideas feature suggests meal options based on available ingredients, making cooking more convenient while reducing unnecessary purchases. With a sleek and responsive design, Fresh Cart ensures a seamless experience across all devices, making it the perfect tool for smart, efficient, and waste-free grocery shopping.</p>
+                    <h3>GroqVerse</h3>
+                    <p>GroqVerse is an innovative multi-modal chatbot platform developed for the Hackazard 2025 Hackathon.(Needs to run start-groqverse.bat in Github to Use website) It offers seamless interactions through text, audio, and image-based conversations, providing users with a versatile communication experience. Built using HTML, CSS, and JavaScript for the frontend and Python Flask for the backend, GroqVerse leverages the powerful Groq API to deliver intelligent, real-time responses. The platform features a clean, user-friendly interface and is fully responsive, ensuring a smooth experience across both desktop and mobile devices. By integrating the Groq API, GroqVerse showcases advanced skills in API integration, natural language processing, and secure backend development. Deployed on Railway, it demonstrates a robust and scalable architecture, making it a standout project in the hackathon.</p>
                     <div class="project-tags">
-                        <span>HTML</span>
-                        <span>CSS</span>
-                        <span>JavaScript</span>
+                       
                     </div>
                 </div>
             </div>
 
             <div class="project-card">
                 <div class="project-image">
-                    <img src="Money Minder.jpg"alt="Project 2">
+                    <img src="splitchain.png"alt="Project 2">
                     <div class="project-overlay">
                         <div class="project-links">
-                            <a href="#" class="btn small"><i class="fas fa-eye"></i> Live</a>
-                            <a href="#" class="btn small"><i class="fab fa-github"></i> Code</a>
+                            <a href="https://splittchain.netlify.app/" class="btn small"><i class="fas fa-eye"></i> Live</a>
+                            <a href="https://github.com/Harsh549100/SplitChain" class="btn small"><i class="fab fa-github"></i> Code</a>
                         </div>
                     </div>
                 </div>
                 <div class="project-info">
-                    <h3>Money Minder</h3>
-                    <p>MoneyMinder is a modern financial management tool built using HTML, CSS, and JavaScript, designed to help users efficiently manage their finances with ease. It provides an intuitive and user-friendly interface that allows users to take control of their budgeting, expenses, and savings goals. With its Budget Calculator, users can create and manage personalized budgets to ensure better financial planning. The Expense Tracking feature helps monitor daily expenses and spending patterns, providing insights into financial habits. Additionally, the Savings Goals section allows users to set and track their financial objectives, promoting smarter saving strategies. The sleek design, smooth animations, and interactive UI enhance the overall experience, making financial management simple and engaging. With a well-structured layout and a responsive design, MoneyMinder ensures accessibility across devices, offering a seamless and visually appealing way to stay on top of personal finances. 🚀</p>
-
-
-
-
-
-
-
-
-                    <div class="project-tags">
-                        <span>HTML </span>
-                        <span>CSS</span>
-                        <span>JAVA SCRIPT </span>
+                    <h3>SplitChain</h3>
+                    <p>SplitChain is an advanced on-chain group expense splitter designed for seamless and secure expense management. Built using HTML, CSS, and TypeScript, it allows users to create groups, track expenses, and settle payments using USDC through Coinbase Wallet integration. The platform offers a clean, user-friendly interface with localStorage for efficient data management, ensuring that user data remains accessible even offline. SplitChain is a secure and scalable solution that leverages blockchain technology for transparent and tamper-proof expense tracking, making it a standout project developed for the Base India Hackathon.</p>
+                        <div class="project-tags">
+                        
                     </div>
                 </div>
             </div>
@@ -291,8 +366,8 @@
                     <img src="1.png" alt="Project 3">
                     <div class="project-overlay">
                         <div class="project-links">
-                            <a href="#" class="btn small"><i class="fas fa-eye"></i> Live</a>
-                            <a href="#" class="btn small"><i class="fab fa-github"></i> Code</a>
+                            <a href="https://glamgear.netlify.app/" class="btn small"><i class="fas fa-eye"></i> Live</a>
+                            <a href="https://github.com/Harsh549100/GLAM-GEAR" class="btn small"><i class="fab fa-github"></i> Code</a>
                         </div>
                     </div>
                 </div>
@@ -300,13 +375,12 @@
                     <h3>Glam Gear </h3>
                     <p>Glam Gear is a stylish and modern website built using HTML, CSS, and JavaScript, designed to showcase the latest and most luxurious cars with detailed features and insights. It serves as a hub for car enthusiasts, providing in-depth information on high-end vehicles, including their specifications, performance, and cutting-edge technology. With a sleek and visually stunning design, Glam Gear offers an immersive browsing experience, featuring smooth animations, interactive elements, and a responsive layout. Each car listing is presented with high-quality visuals and well-organized details, making it easy for users to explore and compare luxury automobiles. Whether you're a car enthusiast, a potential buyer, or simply someone who appreciates the beauty of high-performance machines, Glam Gear delivers an elegant and engaging platform to stay updated on the world of luxury cars. 🚗✨</p>
                     <div class="project-tags">
-                        <span>Html</span>
-                        <span>Css</span>
+                        
                        
                     </div>
                 </div>
             </div>
-
+            
             
         </div>
     </section>
@@ -352,5 +426,7 @@
             <i class="fab fa-twitter"></i>
         </a>
     </div>
+
+    
 </body>
 </html>
