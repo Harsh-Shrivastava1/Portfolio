@@ -643,10 +643,63 @@ body {
 
 .project-card {
     background: white;
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: var(--shadow-md);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 0 6px 24px rgba(43,43,255,0.08), 0 1.5px 6px rgba(43,43,255,0.04);
+    transition: transform 0.4s cubic-bezier(.4,0,.2,1), box-shadow 0.4s cubic-bezier(.4,0,.2,1);
+    position: relative;
+}
+
+.project-description-wrapper {
+    max-height: 100px;
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.5s cubic-bezier(.4,0,.2,1);
+}
+
+.project-description-wrapper.expanded {
+    max-height: 1000px;
+    transition: max-height 0.7s cubic-bezier(.4,0,.2,1);
+}
+
+.fade-gradient {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff 80%);
+    pointer-events: none;
+    transition: opacity 0.3s;
+    opacity: 1;
+    border-radius: 0 0 16px 16px;
+}
+
+.project-description-wrapper.expanded .fade-gradient {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.show-more-btn {
+    display: inline-block;
+    margin: 0.5rem 0 0.5rem 0;
+    padding: 0.5rem 1.5rem;
+    background: #2b2bff;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(43,43,255,0.08);
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.show-more-btn:hover {
+    background: #1a1aff;
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 4px 16px rgba(43,43,255,0.16);
 }
 
 .project-card:hover {
@@ -776,7 +829,22 @@ body {
     }
     
     .project-card {
-        border-radius: 10px;
+        border-radius: 12px;
+    }
+    
+    .project-description-wrapper {
+        max-height: 80px;
+    }
+    .project-description-wrapper.expanded {
+        max-height: 1000px;
+    }
+    .fade-gradient {
+        height: 30px;
+        border-radius: 0 0 12px 12px;
+    }
+    .show-more-btn {
+        font-size: 0.95rem;
+        padding: 0.45rem 1.2rem;
     }
     
     .project-image {

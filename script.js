@@ -153,6 +153,24 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    document.querySelectorAll('.project-card').forEach(card => {
+        const descWrapper = card.querySelector('.project-description-wrapper');
+        const btn = card.querySelector('.show-more-btn');
+        const fade = card.querySelector('.fade-gradient');
+        if (descWrapper && btn && fade) {
+            btn.addEventListener('click', () => {
+                const expanded = descWrapper.classList.toggle('expanded');
+                if (expanded) {
+                    btn.textContent = 'Show Less';
+                    fade.style.opacity = '0';
+                } else {
+                    btn.textContent = 'Show More';
+                    fade.style.opacity = '1';
+                }
+            });
+        }
+    });
+
     
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
