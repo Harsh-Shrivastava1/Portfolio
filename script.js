@@ -1,8 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
-    
+    console.log("Page Loaded");
+
+    // ✅ Register GSAP plugins (make sure GSAP and these plugins are loaded in HTML)
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-    
+    // ✅ Page transition animation
     const pageTransition = () => {
         const tl = gsap.timeline();
         tl.to(".transition-overlay", {
@@ -19,20 +21,22 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
+    // ✅ Typewriter effect
     const typewriter = new Typewriter('.typewriter', {
-        strings: ['Aspiring Full Stack Developer','Code & Design Enthusiast'],
+        strings: ['Aspiring Full Stack Developer', 'Code & Design Enthusiast'],
         autoStart: true,
         loop: true,
         delay: 75,
         deleteSpeed: 50
     });
 
+    // ✅ Hero section animations
     const tl = gsap.timeline();
-    tl.from("nav", { 
-        opacity: 0, 
-        y: -50, 
-        duration: 1, 
-        ease: "power3.out" 
+    tl.from("nav", {
+        opacity: 0,
+        y: -50,
+        duration: 1,
+        ease: "power3.out"
     })
     .from(".hero-content > *:not(.hero-image):not(.profile-container)", {
         opacity: 0,
@@ -42,21 +46,20 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "back.out(1.7)"
     });
 
-    
+    // ✅ Profile image animation
     gsap.from(".profile-pic", {
-        opacity: 0, 
-        scale: 0.5, 
-        duration: 1, 
-        delay: 0.5, 
+        opacity: 0,
+        scale: 0.5,
+        duration: 1,
+        delay: 0.5,
         ease: "back.out(1.7)",
         clearProps: "opacity,scale"
     });
 
-
+    // ✅ Parallax background
     gsap.utils.toArray('.parallax').forEach(layer => {
         const depth = layer.dataset.depth;
         const movement = -(layer.offsetHeight * depth);
-        
         gsap.to(layer, {
             y: movement,
             ease: "none",
@@ -69,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    
+    // ✅ 3D Tilt cards
     VanillaTilt.init(document.querySelectorAll(".skill-card, .project-card"), {
         max: 15,
         speed: 400,
@@ -77,10 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
         "max-glare": 0.5
     });
 
-    
+    // ✅ Skill animations
     const animateSkills = () => {
         const cards = gsap.utils.toArray('.skill-card');
-        
+
         cards.forEach((card, i) => {
             gsap.from(card, {
                 scrollTrigger: {
@@ -97,10 +100,9 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        
         gsap.utils.toArray('.progress').forEach(progress => {
             const width = progress.style.width;
-            gsap.fromTo(progress, 
+            gsap.fromTo(progress,
                 { width: "0%" },
                 {
                     width: width,
@@ -118,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    
+    // ✅ Hover animations on project cards
     document.querySelectorAll(".project-card").forEach(card => {
         card.addEventListener("mouseenter", () => {
             gsap.to(card, {
@@ -153,6 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // ✅ Show more/less toggle on project cards
     document.querySelectorAll('.project-card').forEach(card => {
         const descWrapper = card.querySelector('.project-description-wrapper');
         const btn = card.querySelector('.show-more-btn');
@@ -171,31 +174,34 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    
+    // ✅ Smooth scrolling with page transition
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             pageTransition();
             setTimeout(() => {
                 const target = document.querySelector(this.getAttribute('href'));
-                gsap.to(window, {
-                    duration: 1.5,
-                    scrollTo: {
-                        y: target,
-                        offsetY: 70
-                    },
-                    ease: "power4.inOut"
-                });
+                if (target) {
+                    gsap.to(window, {
+                        duration: 1.5,
+                        scrollTo: {
+                            y: target,
+                            offsetY: 70
+                        },
+                        ease: "power4.inOut"
+                    });
+                }
             }, 500);
         });
     });
 
-   
+    // ✅ Run animations
     animateSkills();
     timelineAnimation();
 });
 
 
+// ✅ Split text animation
 const splitText = (element) => {
     const text = element.textContent;
     element.textContent = '';
@@ -221,7 +227,7 @@ document.querySelectorAll('.section-header h2').forEach(heading => {
     });
 });
 
-
+// ✅ Floating social links animation
 gsap.to('.social-link', {
     y: -10,
     duration: 1.5,
@@ -233,7 +239,7 @@ gsap.to('.social-link', {
     }
 });
 
-
+// ✅ Parallax layers (if using .parallax-layer)
 gsap.utils.toArray('.parallax-layer').forEach(layer => {
     const speed = layer.dataset.speed || 0.5;
     gsap.to(layer, {
@@ -248,12 +254,11 @@ gsap.utils.toArray('.parallax-layer').forEach(layer => {
     });
 });
 
-
+// ✅ Timeline animation (education or experience)
 const timelineAnimation = () => {
     const timelineItems = document.querySelectorAll('.timeline-item');
-    
+
     timelineItems.forEach((item, index) => {
-        
         if (index === 0) {
             gsap.from('.timeline-line', {
                 scrollTrigger: {
@@ -266,17 +271,7 @@ const timelineAnimation = () => {
             });
         }
 
-        
-        gsap.from(item.querySelector('::before'), {
-            scrollTrigger: {
-                trigger: item,
-                start: "top 80%"
-            },
-            scale: 0,
-            duration: 0.5,
-            delay: index * 0.2 + 0.3,
-            ease: "back.out(1.7)"
-        });
+        // Removed ::before selector — use actual element instead if needed
 
         gsap.from(item.querySelector('.timeline-card'), {
             scrollTrigger: {

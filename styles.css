@@ -3,11 +3,11 @@
     --secondary-color: #3b82f6;
     --accent-color: #dbeafe;
     --text-color: #1f2937;
-    --bg-color: #ffffff;
+    --bg-color: #e6f2ff; /* changed from white to match your actual background */
     --card-bg: #ffffff;
-    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
     --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
 }
 
