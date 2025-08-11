@@ -12,35 +12,82 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            background: #f5f6fa;
+            background: linear-gradient(120deg, #e0f7fa 0%, #f5f6fa 100%);
             font-family: 'Segoe UI', Arial, sans-serif;
         }
         .resume-container {
-            background: #fff;
-            padding: 2rem 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+            background: rgba(255,255,255,0.85);
+            padding: 2.7rem 2.7rem 2.2rem 2.7rem;
+            border-radius: 22px;
+            box-shadow: 0 12px 40px rgba(0,119,182,0.14), 0 2px 12px rgba(0,0,0,0.08);
             text-align: center;
-            max-width: 400px;
+            max-width: 430px;
+            transition: box-shadow 0.3s, transform 0.2s;
+            position: relative;
+            backdrop-filter: blur(6px);
+            border: 1.5px solid rgba(0,183,255,0.08);
+        }
+        .resume-container:hover {
+            box-shadow: 0 18px 48px rgba(0,119,182,0.22), 0 4px 18px rgba(0,0,0,0.10);
+            transform: translateY(-4px) scale(1.02);
         }
         .resume-icon {
-            font-size: 3rem;
-            color: #0077b6;
-            margin-bottom: 1rem;
+            font-size: 3.7rem;
+            color: #00b4d8;
+            margin-bottom: 1.3rem;
+            animation: bounce 1.2s infinite;
+            filter: drop-shadow(0 2px 8px #00b4d833);
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0);}
+            50% { transform: translateY(-10px);}
         }
         .resume-title {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            color: #222;
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg,#0077b6 40%,#00b4d8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
         }
         .resume-message {
-            font-size: 1.1rem;
-            color: #555;
-            margin-bottom: 1rem;
+            font-size: 1.18rem;
+            color: #444;
+            margin-bottom: 1.3rem;
+            line-height: 1.7;
+        }
+        .resume-message strong {
+            color: #0077b6;
         }
         .resume-note {
+            font-size: 1.05rem;
+            color: #666;
+            margin-top: 0.7rem;
+        }
+        .resume-note a {
+            color: #00b4d8;
+            text-decoration: underline;
+            transition: color 0.2s;
+            font-weight: 500;
+        }
+        .resume-note a:hover {
+            color: #0077b6;
+            text-shadow: 0 2px 8px #00b4d822;
+        }
+        .resume-footer {
+            position: absolute;
+            bottom: -28px;
+            left: 50%;
+            transform: translateX(-50%);
             font-size: 0.95rem;
-            color: #888;
+            color: #bbb;
+            background: #fff;
+            padding: 0 0.7rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,119,182,0.05);
+            opacity: 0.95;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -58,6 +105,9 @@
         </div>
         <div class="resume-note">
             Meanwhile, feel free to explore my <a href="index.html#projects" style="color:#0077b6;text-decoration:underline;">projects</a> and <a href="index.html#skills" style="color:#0077b6;text-decoration:underline;">skills</a>.
+        </div>
+        <div class="resume-footer">
+            
         </div>
     </div>
 </body>
