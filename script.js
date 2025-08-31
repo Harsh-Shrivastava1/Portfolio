@@ -195,6 +195,82 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // === Contact Form Animation & UX Enhancements ===
+    // Contact form animation on scroll
+    const formSection = document.querySelector('#message');
+    if (formSection) {
+        gsap.from(formSection, {
+            opacity: 0,
+            y: 60,
+            duration: 1.2,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: formSection,
+                start: "top 85%",
+            }
+        });
+
+        // Animate each input/textarea in sequence
+        const inputs = formSection.querySelectorAll('input, textarea');
+        gsap.from(inputs, {
+            opacity: 0,
+            y: 30,
+            duration: 0.7,
+            stagger: 0.15,
+            delay: 0.2,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: formSection,
+                start: "top 85%",
+            }
+        });
+
+        // Animate submit button
+        const submitBtn = formSection.querySelector('button[type="submit"]');
+        if (submitBtn) {
+            gsap.from(submitBtn, {
+                opacity: 0,
+                scale: 0.8,
+                duration: 0.7,
+                delay: 0.5,
+                ease: "back.out(1.7)",
+                scrollTrigger: {
+                    trigger: formSection,
+                    start: "top 85%",
+                }
+            });
+        }
+
+        // Interactive input focus effect
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                gsap.to(input, { boxShadow: "0 0 0 4px #00b4d855", duration: 0.3 });
+            });
+            input.addEventListener('blur', () => {
+                gsap.to(input, { boxShadow: "0 2px 8px rgba(37,99,235,0.04)", duration: 0.3 });
+            });
+        });
+
+        // Submit animation and feedback
+        if (formSection.querySelector('form')) {
+            formSection.querySelector('form').addEventListener('submit', function(e) {
+                // Optional: show a sending animation
+                const btn = this.querySelector('button[type="submit"]');
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                }
+                // Optional: after a short delay, reset button (Formspree will redirect or show its own message)
+                setTimeout(() => {
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = 'Send Message';
+                    }
+                }, 4000);
+            });
+        }
+    }
+
     // ✅ Run animations
     animateSkills();
     timelineAnimation();
@@ -285,3 +361,4 @@ const timelineAnimation = () => {
         });
     });
 };
+
