@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
     console.log("Page Loaded");
 
-    // ✅ Register GSAP plugins (make sure GSAP and these plugins are loaded in HTML)
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-    // ✅ Page transition animation
+    // Page transition animation wanna enhance it more
+    // i have to improve it later
     const pageTransition = () => {
         const tl = gsap.timeline();
         tl.to(".transition-overlay", {
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // ✅ Typewriter effect
+    //  Typewriter effect
     const typewriter = new Typewriter('.typewriter', {
         strings: ['Aspiring Full Stack Developer', 'Code & Design Enthusiast'],
         autoStart: true,
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         deleteSpeed: 50
     });
 
-    // ✅ Hero section animations
+    //  Hero section animations 
     const tl = gsap.timeline();
     tl.from("nav", {
         opacity: 0,
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "back.out(1.7)"
     });
 
-    // ✅ Profile image animation
+    //  Profile image animation
     gsap.from(".profile-pic", {
         opacity: 0,
         scale: 0.5,
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
         clearProps: "opacity,scale"
     });
 
-    // ✅ Parallax background
+    
     gsap.utils.toArray('.parallax').forEach(layer => {
         const depth = layer.dataset.depth;
         const movement = -(layer.offsetHeight * depth);
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // ✅ 3D Tilt cards
+    //  3D Tilt cards
     VanillaTilt.init(document.querySelectorAll(".skill-card, .project-card"), {
         max: 15,
         speed: 400,
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "max-glare": 0.5
     });
 
-    // ✅ Skill animations
+    //  Skill animations
     const animateSkills = () => {
         const cards = gsap.utils.toArray('.skill-card');
 
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // ✅ Hover animations on project cards
+    //  Hover animations on project cards
     document.querySelectorAll(".project-card").forEach(card => {
         card.addEventListener("mouseenter", () => {
             gsap.to(card, {
@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // ✅ Show more/less toggle on project cards
+    //  Show more/less toggle on project cards
     document.querySelectorAll('.project-card').forEach(card => {
         const descWrapper = card.querySelector('.project-description-wrapper');
         const btn = card.querySelector('.show-more-btn');
@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // ✅ Smooth scrolling with page transition
+    //  Smooth scrolling with page transition
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -195,8 +195,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // === Contact Form Animation & UX Enhancements ===
-    // Contact form animation on scroll
+    // Contact Form Animation & UX Enhancements
+  
     const formSection = document.querySelector('#message');
     if (formSection) {
         gsap.from(formSection, {
@@ -241,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        // Interactive input focus effect
+        
         inputs.forEach(input => {
             input.addEventListener('focus', () => {
                 gsap.to(input, { boxShadow: "0 0 0 4px #00b4d855", duration: 0.3 });
@@ -251,16 +251,16 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        // Submit animation and feedback
+        
         if (formSection.querySelector('form')) {
             formSection.querySelector('form').addEventListener('submit', function(e) {
-                // Optional: show a sending animation
+                
                 const btn = this.querySelector('button[type="submit"]');
                 if (btn) {
                     btn.disabled = true;
                     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
                 }
-                // Optional: after a short delay, reset button (Formspree will redirect or show its own message)
+                
                 setTimeout(() => {
                     if (btn) {
                         btn.disabled = false;
@@ -271,13 +271,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // ✅ Run animations
+    //  Run animations
     animateSkills();
     timelineAnimation();
 });
 
 
-// ✅ Split text animation
+// Split text animation
 const splitText = (element) => {
     const text = element.textContent;
     element.textContent = '';
@@ -303,7 +303,7 @@ document.querySelectorAll('.section-header h2').forEach(heading => {
     });
 });
 
-// ✅ Floating social links animation
+// Floating social links animation
 gsap.to('.social-link', {
     y: -10,
     duration: 1.5,
@@ -315,7 +315,7 @@ gsap.to('.social-link', {
     }
 });
 
-// ✅ Parallax layers (if using .parallax-layer)
+// Parallax layers (if using .parallax-layer)
 gsap.utils.toArray('.parallax-layer').forEach(layer => {
     const speed = layer.dataset.speed || 0.5;
     gsap.to(layer, {
@@ -330,7 +330,7 @@ gsap.utils.toArray('.parallax-layer').forEach(layer => {
     });
 });
 
-// ✅ Timeline animation (education or experience)
+// Timeline animation 
 const timelineAnimation = () => {
     const timelineItems = document.querySelectorAll('.timeline-item');
 
@@ -347,7 +347,7 @@ const timelineAnimation = () => {
             });
         }
 
-        // Removed ::before selector — use actual element instead if needed
+        
 
         gsap.from(item.querySelector('.timeline-card'), {
             scrollTrigger: {
