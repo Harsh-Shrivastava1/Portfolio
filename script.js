@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //  Typewriter effect
     const typewriter = new Typewriter('.typewriter', {
-        strings: ['Aspiring Software Developer', 'Code & Design Enthusiast'],
+        strings: ['Aspiring Software Developer.', 'Code & Design Enthusiast.'],
         autoStart: true,
         loop: true,
         delay: 75,
