@@ -1,4 +1,41 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Navbar hide/show on scroll direction
+    const navbar = document.querySelector('nav');
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+
+    // Always show navbar on page load
+    // Force navbar visible on page load and after transition
+    // Force navbar visible on page load
+    navbar.style.transform = 'translateY(0)';
+    navbar.style.setProperty('transform', 'translateY(0)', 'important');
+
+    // Also show navbar after page transition animation
+    document.addEventListener('transitionend', () => {
+        navbar.style.setProperty('transform', 'translateY(0)', 'important');
+    });
+
+    function handleNavbarScroll() {
+        const currentScrollY = window.scrollY;
+        if (currentScrollY < 50) {
+            navbar.style.transform = 'translateY(0)';
+        } else if (currentScrollY > lastScrollY) {
+            // Scrolling down
+            navbar.style.transform = 'translateY(-100%)';
+        } else {
+            // Scrolling up
+            navbar.style.transform = 'translateY(0)';
+        }
+        lastScrollY = currentScrollY;
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(handleNavbarScroll);
+            ticking = true;
+        }
+    });
     console.log("Page Loaded");
 
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
