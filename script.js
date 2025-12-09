@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function handleNavbarScroll() {
         const currentScrollY = window.scrollY;
+
         if (currentScrollY < 50) {
             navbar.style.transform = 'translateY(0)';
         } else if (currentScrollY > lastScrollY) {
@@ -50,12 +51,12 @@ document.addEventListener("DOMContentLoaded", () => {
             transformOrigin: "bottom",
             ease: "power4.inOut"
         })
-        .to(".transition-overlay", {
-            duration: 0.5,
-            scaleY: 0,
-            transformOrigin: "top",
-            ease: "power4.inOut"
-        });
+            .to(".transition-overlay", {
+                duration: 0.5,
+                scaleY: 0,
+                transformOrigin: "top",
+                ease: "power4.inOut"
+            });
     };
 
     //  Typewriter effect
@@ -75,13 +76,13 @@ document.addEventListener("DOMContentLoaded", () => {
         duration: 1,
         ease: "power3.out"
     })
-    .from(".hero-content > *:not(.hero-image):not(.profile-container)", {
-        opacity: 0,
-        y: 30,
-        duration: 1,
-        stagger: 0.2,
-        ease: "back.out(1.7)"
-    });
+        .from(".hero-content > *:not(.hero-image):not(.profile-container)", {
+            opacity: 0,
+            y: 30,
+            duration: 1,
+            stagger: 0.2,
+            ease: "back.out(1.7)"
+        });
 
     //  Profile image animation
     gsap.from(".profile-pic", {
@@ -93,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
         clearProps: "opacity,scale"
     });
 
-    
+
     gsap.utils.toArray('.parallax').forEach(layer => {
         const depth = layer.dataset.depth;
         const movement = -(layer.offsetHeight * depth);
@@ -233,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Contact Form Animation & UX Enhancements
-  
+
     const formSection = document.querySelector('#message');
     if (formSection) {
         gsap.from(formSection, {
@@ -278,7 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        
+
         inputs.forEach(input => {
             input.addEventListener('focus', () => {
                 gsap.to(input, { boxShadow: "0 0 0 4px #00b4d855", duration: 0.3 });
@@ -288,16 +289,16 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        
+
         if (formSection.querySelector('form')) {
-            formSection.querySelector('form').addEventListener('submit', function(e) {
-                
+            formSection.querySelector('form').addEventListener('submit', function (e) {
+
                 const btn = this.querySelector('button[type="submit"]');
                 if (btn) {
                     btn.disabled = true;
                     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
                 }
-                
+
                 setTimeout(() => {
                     if (btn) {
                         btn.disabled = false;
@@ -384,7 +385,7 @@ const timelineAnimation = () => {
             });
         }
 
-        
+
 
         gsap.from(item.querySelector('.timeline-card'), {
             scrollTrigger: {
