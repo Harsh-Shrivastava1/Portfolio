@@ -1,31 +1,42 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Navbar hide/show on scroll direction
-    const navbar = document.querySelector('nav');
+    // Navbar hide/show on scroll direction (fixed flicker, stable direction, threshold)
+    const navbar = document.querySelector('.navbar');
     let lastScrollY = window.scrollY;
+    let lastDirection = null;
     let ticking = false;
+    const SCROLL_THRESHOLD = 8; // px
 
-    // Always show navbar on page load
-    // Force navbar visible on page load and after transition
-    // Force navbar visible on page load
+    // Always show navbar on page load, no flicker
     navbar.style.transform = 'translateY(0)';
     navbar.style.setProperty('transform', 'translateY(0)', 'important');
+    navbar.style.transition = navbar.style.transition || 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
 
-    // Also show navbar after page transition animation
+    // Show navbar after page transition animation
     document.addEventListener('transitionend', () => {
         navbar.style.setProperty('transform', 'translateY(0)', 'important');
     });
 
     function handleNavbarScroll() {
         const currentScrollY = window.scrollY;
+        const diff = currentScrollY - lastScrollY;
+        let direction = null;
+        if (Math.abs(diff) < SCROLL_THRESHOLD) {
+            ticking = false;
+            return;
+        }
+        direction = diff > 0 ? 'down' : 'up';
 
         if (currentScrollY < 50) {
             navbar.style.transform = 'translateY(0)';
-        } else if (currentScrollY > lastScrollY) {
-            // Scrolling down
-            navbar.style.transform = 'translateY(-100%)';
         } else {
-            // Scrolling up
-            navbar.style.transform = 'translateY(0)';
+            if (direction !== lastDirection) {
+                if (direction === 'down') {
+                    navbar.style.transform = 'translateY(-100%)';
+                } else if (direction === 'up') {
+                    navbar.style.transform = 'translateY(0)';
+                }
+                lastDirection = direction;
+            }
         }
         lastScrollY = currentScrollY;
         ticking = false;
