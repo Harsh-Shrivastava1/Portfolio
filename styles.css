@@ -1,3 +1,46 @@
+/* Skill level term (primary, animated) */
+.skill-level-term {
+    display: block;
+    margin: 0.5rem auto 0.3rem auto;
+    font-size: 1.35rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    text-align: center;
+    line-height: 1.1;
+    text-shadow: 0 2px 8px rgba(43, 43, 255, 0.08);
+}
+.animate-skill-term {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    animation: skillTermFadeIn 0.7s cubic-bezier(.4,0,.2,1) 0.15s forwards;
+}
+@keyframes skillTermFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+/* Skill level label for skills section */
+.skill-level-label {
+    display: block;
+    margin: 0.3rem auto 0.7rem auto;
+    font-size: 0.98rem;
+    color: rgba(31, 41, 55, 0.55); /* Muted version of --text-color */
+    text-align: center;
+    line-height: 1.4;
+    font-weight: 500;
+    max-width: 95%;
+    word-break: break-word;
+    white-space: normal;
+}
+@media (max-width: 600px) {
+    .skill-level-label {
+        font-size: 0.93rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.35;
+    }
+}
 :root {
     --primary-color: #2563eb;
     --secondary-color: #3b82f6;
