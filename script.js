@@ -123,19 +123,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const cards = gsap.utils.toArray('.skill-card');
 
         cards.forEach((card, i) => {
-            gsap.from(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top 80%",
-                    toggleActions: "play none none reverse"
-                },
-                opacity: 0,
-                y: 100,
-                rotation: gsap.utils.random(-10, 10),
-                duration: 0.8,
-                delay: i * 0.2,
-                ease: "back.out(1.7)"
-            });
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    },
+                    opacity: 0,
+                    y: 60,
+                    rotation: gsap.utils.random(-8, 8),
+                    duration: 0.35,
+                    delay: i * 0.07,
+                    ease: "back.out(1.4)"
+                });
         });
 
         gsap.utils.toArray('.progress').forEach(progress => {
@@ -327,16 +327,16 @@ const splitText = (element) => {
     });
 };
 
-document.querySelectorAll('.section-header h2').forEach(heading => {
+document.querySelectorAll('.section-header h2, .category-title').forEach(heading => {
     splitText(heading);
     gsap.to(heading.querySelectorAll('.letter-reveal'), {
         opacity: 1,
         y: 0,
-        duration: 0.5,
-        stagger: 0.05,
+        duration: 0.28,
+        stagger: 0.025,
         scrollTrigger: {
             trigger: heading,
-            start: 'top 80%'
+            start: 'top 85%'
         }
     });
 });
