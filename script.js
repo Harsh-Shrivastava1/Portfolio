@@ -122,11 +122,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     //  3D Tilt cards
-    VanillaTilt.init(document.querySelectorAll(".skill-card, .project-card"), {
+    VanillaTilt.init(document.querySelectorAll(".skill-card, .project-card, .certificate-card"), {
         max: 15,
         speed: 400,
         glare: true,
         "max-glare": 0.5
+    });
+
+    // Certificate cards reveal with subtle stagger
+    gsap.utils.toArray('.certificate-card').forEach((card, i) => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: "top 88%",
+                toggleActions: "play none none none"
+            },
+            opacity: 0,
+            y: 40,
+            duration: 0.6,
+            delay: i * 0.05,
+            ease: "power2.out"
+        });
     });
 
     //  Skill animations
@@ -138,7 +154,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     scrollTrigger: {
                         trigger: card,
                         start: "top 85%",
-                        toggleActions: "play none none reverse"
+                        toggleActions: "play none none none",
+                        once: true
                     },
                     opacity: 0,
                     y: 60,
@@ -338,7 +355,7 @@ const splitText = (element) => {
     });
 };
 
-document.querySelectorAll('.section-header h2, .category-title').forEach(heading => {
+document.querySelectorAll('.section-header h2').forEach(heading => {
     splitText(heading);
     gsap.to(heading.querySelectorAll('.letter-reveal'), {
         opacity: 1,
