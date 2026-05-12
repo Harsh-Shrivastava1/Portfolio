@@ -20,6 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const currentScrollY = window.scrollY;
         const diff = currentScrollY - lastScrollY;
         let direction = null;
+
+        // Disable hide-on-scroll for mobile for better stability
+        if (window.innerWidth < 768) {
+            navbar.style.transform = 'translateY(0)';
+            return;
+        }
+
         if (Math.abs(diff) < SCROLL_THRESHOLD) {
             ticking = false;
             return;
@@ -48,6 +55,29 @@ document.addEventListener("DOMContentLoaded", () => {
             ticking = true;
         }
     }, { passive: true }); // Passive listener for better scroll performance
+
+    // Hamburger Menu Logic
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    const body = document.body;
+
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close menu on link click
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+                body.style.overflow = '';
+            });
+        });
+    }
+
     console.log("Page Loaded");
 
     // Initialize premium animated hero background
@@ -607,14 +637,16 @@ class HeroBackground {
         this.maxHistory = 20;
 
         // Global Floating Particles
+        const isMobile = window.innerWidth < 768;
         this.particles = [];
-        for (let i = 0; i < 30; i++) {
+        const particleCount = isMobile ? 8 : 30;
+        for (let i = 0; i < particleCount; i++) {
             this.particles.push({
                 x: Math.random() * this.width,
                 y: Math.random() * this.height,
-                size: Math.random() * 20 + 10,
-                speedX: (Math.random() - 0.5) * 0.2,
-                speedY: (Math.random() - 0.5) * 0.2,
+                size: isMobile ? (Math.random() * 10 + 5) : (Math.random() * 20 + 10),
+                speedX: (Math.random() - 0.5) * (isMobile ? 0.1 : 0.2),
+                speedY: (Math.random() - 0.5) * (isMobile ? 0.1 : 0.2),
                 baseOpacity: Math.random() * 0.08 + 0.02
             });
         }
@@ -673,9 +705,9 @@ class HeroBackground {
         const scrollOffset = window.scrollY; // Use scroll to parallax waves
 
         const ribbons = [
-            { baseY: 0.60, amplitude: 140, thickness: 180, speed: 0.0002, color1: 'rgba(79, 140, 255, 0.08)', color2: 'rgba(123, 97, 255, 0)' },
-            { baseY: 0.72, amplitude: 110, thickness: 150, speed: 0.00035, color1: 'rgba(123, 97, 255, 0.06)', color2: 'rgba(79, 140, 255, 0)' },
-            { baseY: 0.85, amplitude: 80, thickness: 120, speed: 0.0005, color1: 'rgba(59, 130, 246, 0.09)', color2: 'rgba(167, 139, 250, 0)' }
+            { baseY: 0.60, amplitude: isMobile ? 60 : 140, thickness: isMobile ? 80 : 180, speed: 0.0002, color1: 'rgba(79, 140, 255, 0.08)', color2: 'rgba(123, 97, 255, 0)' },
+            { baseY: 0.72, amplitude: isMobile ? 50 : 110, thickness: isMobile ? 70 : 150, speed: 0.00035, color1: 'rgba(123, 97, 255, 0.06)', color2: 'rgba(79, 140, 255, 0)' },
+            { baseY: 0.85, amplitude: isMobile ? 40 : 80, thickness: isMobile ? 60 : 120, speed: 0.0005, color1: 'rgba(59, 130, 246, 0.09)', color2: 'rgba(167, 139, 250, 0)' }
         ];
 
         for (let j = 0; j < ribbons.length; j++) {
@@ -726,7 +758,7 @@ class HeroBackground {
     drawGlassParticles() {
         const isMobile = window.innerWidth < 768;
         // Optimized: significantly fewer particles on mobile
-        const activeParticles = isMobile ? 12 : this.particles.length; 
+        const activeParticles = this.particles.length; 
 
         for (let i = 0; i < activeParticles; i++) {
             let p = this.particles[i];
