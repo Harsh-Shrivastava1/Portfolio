@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
             window.requestAnimationFrame(handleNavbarScroll);
             ticking = true;
         }
-    });
+    }, { passive: true }); // Passive listener for better scroll performance
     console.log("Page Loaded");
 
     // Initialize premium animated hero background
@@ -119,7 +119,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 trigger: layer,
                 start: "top top",
                 end: "bottom top",
-                scrub: true
+                scrub: true,
+                invalidateOnRefresh: true // Better for responsive changes
             }
         });
     });
@@ -138,56 +139,19 @@ document.addEventListener("DOMContentLoaded", () => {
             scrollTrigger: {
                 trigger: card,
                 start: "top 88%",
-                toggleActions: "play none none none"
+                toggleActions: "play none none none",
+                once: true // Trigger once only
             },
             opacity: 0,
-            y: 40,
+            y: 30,
             duration: 0.6,
             delay: i * 0.05,
-            ease: "power2.out"
+            ease: "power2.out",
+            clearProps: "all"
         });
     });
 
-    //  Skill animations
-    const animateSkills = () => {
-        const cards = gsap.utils.toArray('.skill-card');
 
-        cards.forEach((card, i) => {
-            gsap.from(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top 85%",
-                    toggleActions: "play none none none",
-                    once: true
-                },
-                opacity: 0,
-                y: 60,
-                rotation: gsap.utils.random(-8, 8),
-                duration: 0.35,
-                delay: i * 0.07,
-                ease: "back.out(1.4)"
-            });
-        });
-
-        gsap.utils.toArray('.progress').forEach(progress => {
-            const width = progress.style.width;
-            gsap.fromTo(progress,
-                { width: "0%" },
-                {
-                    width: width,
-                    duration: 1.5,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: progress,
-                        start: "top 80%",
-                        toggleActions: "play none none reverse"
-                    },
-                    onStart: () => progress.classList.add("glow"),
-                    onReverseComplete: () => progress.classList.remove("glow")
-                }
-            );
-        });
-    };
 
     //  Hover animations on project cards
     document.querySelectorAll(".project-card").forEach(card => {
@@ -247,20 +211,25 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
             pageTransition();
+            
             setTimeout(() => {
-                const target = document.querySelector(this.getAttribute('href'));
+                const target = document.querySelector(targetId);
                 if (target) {
                     gsap.to(window, {
-                        duration: 1.5,
+                        duration: 1.2,
                         scrollTo: {
                             y: target,
-                            offsetY: 70
+                            offsetY: 70,
+                            autoKill: true
                         },
-                        ease: "power4.inOut"
+                        ease: "power3.inOut" // Smoother, lighter ease
                     });
                 }
-            }, 500);
+            }, 400); // Reduced delay
         });
     });
 
@@ -340,8 +309,193 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    //  Skill animations & Filtering logic
+    const initSkillsSection = () => {
+        const grid = document.getElementById('skills-grid');
+        const cards = gsap.utils.toArray('.skill-card-new');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const indicator = document.querySelector('.filter-indicator');
+
+        // Initial Animation
+        const animateIn = (targets) => {
+            gsap.set(targets, { display: 'block' });
+            gsap.fromTo(targets, 
+                { opacity: 0, y: 30, scale: 0.9 },
+                { 
+                    opacity: 1, 
+                    y: 0, 
+                    scale: 1, 
+                    duration: 0.5, 
+                    stagger: 0.05, 
+                    ease: "power2.out",
+                    clearProps: "all"
+                }
+            );
+        };
+
+        // Indicator position logic
+        const updateIndicator = (btn) => {
+            if (!indicator) return;
+            indicator.style.width = `${btn.offsetWidth}px`;
+            indicator.style.left = `${btn.offsetLeft}px`;
+        };
+
+        // Initialize indicator
+        const activeBtn = document.querySelector('.filter-btn.active');
+        if (activeBtn) updateIndicator(activeBtn);
+
+        // Filtering Logic
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const filter = btn.dataset.filter;
+                
+                // Update buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                updateIndicator(btn);
+
+                // Animate out all cards first
+                gsap.to(cards, {
+                    opacity: 0,
+                    y: 20,
+                    scale: 0.95,
+                    duration: 0.3,
+                    stagger: 0.02,
+                    ease: "power2.in",
+                    onComplete: () => {
+                        cards.forEach(card => {
+                            if (filter === 'all' || card.dataset.category === filter) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+
+                        // Filter cards and animate in
+                        const visibleCards = cards.filter(card => 
+                            filter === 'all' || card.dataset.category === filter
+                        );
+                        animateIn(visibleCards);
+                    }
+                });
+            });
+        });
+
+        // ScrollTrigger for initial reveal
+        ScrollTrigger.create({
+            trigger: "#skills",
+            start: "top 80%",
+            onEnter: () => animateIn(cards),
+            once: true
+        });
+    };
+
+    // About Section Animation
+    const animateAboutSection = () => {
+        const aboutSection = document.querySelector('#about');
+        if (!aboutSection) return;
+
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: aboutSection,
+                start: "top 80%",
+                once: true // Trigger once
+            }
+        });
+
+        // Use defensive selectors and check for existence
+        const badge = aboutSection.querySelector('.about-badge');
+        const title = aboutSection.querySelector('.about-title');
+        const subtitle = aboutSection.querySelector('.about-subtitle');
+        const leftContent = aboutSection.querySelectorAll('.about-left > *');
+        const cards = aboutSection.querySelectorAll('.feature-card');
+        const statsBar = aboutSection.querySelector('.about-stats-bar');
+
+        if (badge) tl.from(badge, { y: 20, opacity: 0, duration: 0.6, ease: "power2.out" });
+        if (title) tl.from(title, { y: 30, opacity: 0, duration: 0.8, ease: "power2.out" }, "-=0.4");
+        if (subtitle) tl.from(subtitle, { y: 20, opacity: 0, duration: 0.6, ease: "power2.out" }, "-=0.4");
+        
+        if (leftContent.length) {
+            tl.from(leftContent, {
+                x: -30,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: "power2.out"
+            }, "-=0.2");
+        }
+
+        if (cards.length) {
+            tl.from(cards, {
+                scale: 0.9,
+                opacity: 0,
+                y: 40,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "back.out(1.7)",
+                clearProps: "all" // CRITICAL: Ensures opacity and transforms are cleared after animation
+            }, "-=0.6");
+        }
+
+        if (statsBar) {
+            tl.from(statsBar, {
+                y: 40,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out",
+                clearProps: "all"
+            }, "-=0.6");
+        }
+
+        // Mouse Parallax for feature cards (Optimized with requestAnimationFrame)
+        const visualArea = aboutSection.querySelector('.feature-visual-area');
+        if (visualArea && cards.length) {
+            let parallaxTicking = false;
+
+            visualArea.addEventListener('mousemove', (e) => {
+                if (!parallaxTicking) {
+                    window.requestAnimationFrame(() => {
+                        const { clientX, clientY } = e;
+                        const { left, top, width, height } = visualArea.getBoundingClientRect();
+                        const x = (clientX - left) / width - 0.5;
+                        const y = (clientY - top) / height - 0.5;
+
+                        cards.forEach((card, index) => {
+                            const factor = (index + 1) * 8; // Reduced factor for subtlety
+                            const direction = index % 2 === 0 ? 1 : -1;
+                            gsap.to(card, { 
+                                x: x * factor * direction, 
+                                y: y * factor * direction, 
+                                duration: 0.8, // Slower for premium feel
+                                overwrite: 'auto',
+                                ease: "power2.out"
+                            });
+                        });
+                        
+                        const glow = visualArea.querySelector('.ambient-glow');
+                        if (glow) {
+                            gsap.to(glow, { x: x * 20, y: y * 20, duration: 1, overwrite: 'auto' });
+                        }
+                        parallaxTicking = false;
+                    });
+                    parallaxTicking = true;
+                }
+            }, { passive: true });
+
+            visualArea.addEventListener('mouseleave', () => {
+                gsap.to([...cards, visualArea.querySelector('.ambient-glow')].filter(Boolean), { 
+                    x: 0, 
+                    y: 0, 
+                    duration: 1, 
+                    ease: "power2.out",
+                    overwrite: 'auto'
+                });
+            });
+        }
+    };
+
     //  Run animations
-    animateSkills();
+    initSkillsSection();
     animateAboutSection();
     timelineAnimation();
 });
@@ -400,42 +554,7 @@ gsap.utils.toArray('.parallax-layer').forEach(layer => {
     });
 });
 
-// About Section Animation
-const animateAboutSection = () => {
-    gsap.from('.about-intro', {
-        scrollTrigger: {
-            trigger: '#about',
-            start: "top 80%"
-        },
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power2.out"
-    });
 
-    gsap.from('.about-details p', {
-        scrollTrigger: {
-            trigger: '#about',
-            start: "top 70%"
-        },
-        y: 20,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power2.out"
-    });
-
-    gsap.from('.stat-item', {
-        scrollTrigger: {
-            trigger: '.about-stats',
-            start: "top 85%"
-        },
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: "power2.out"
-    });
-};
 
 // Timeline animation 
 const timelineAnimation = () => {
@@ -509,9 +628,8 @@ class HeroBackground {
 
         document.addEventListener('pointermove', (e) => {
             this.targetMouseX = e.clientX;
-            // Since canvas is fixed to viewport, we just use clientY
             this.targetMouseY = e.clientY;
-        });
+        }, { passive: true });
 
         // Always animate since it's a global background
         this.isVisible = true;
@@ -542,7 +660,7 @@ class HeroBackground {
             let grad = this.ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.radius);
             grad.addColorStop(0, b.color);
             grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-            
+
             this.ctx.beginPath();
             this.ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
             this.ctx.fillStyle = grad;
@@ -553,7 +671,7 @@ class HeroBackground {
     drawFluidRibbons() {
         const isMobile = window.innerWidth < 768;
         const scrollOffset = window.scrollY; // Use scroll to parallax waves
-        
+
         const ribbons = [
             { baseY: 0.60, amplitude: 140, thickness: 180, speed: 0.0002, color1: 'rgba(79, 140, 255, 0.08)', color2: 'rgba(123, 97, 255, 0)' },
             { baseY: 0.72, amplitude: 110, thickness: 150, speed: 0.00035, color1: 'rgba(123, 97, 255, 0.06)', color2: 'rgba(79, 140, 255, 0)' },
@@ -578,7 +696,7 @@ class HeroBackground {
                 let dx = x - this.mouseX;
                 let dy = baseY - this.mouseY;
                 let dist = Math.sqrt(dx * dx + dy * dy);
-                
+
                 let influence = Math.max(0, 1 - dist / 900);
 
                 let offset = Math.sin(x * 0.0012 + this.time * rib.speed + j) * rib.amplitude +
@@ -607,7 +725,8 @@ class HeroBackground {
 
     drawGlassParticles() {
         const isMobile = window.innerWidth < 768;
-        const activeParticles = isMobile ? Math.floor(this.particles.length / 2) : this.particles.length;
+        // Optimized: significantly fewer particles on mobile
+        const activeParticles = isMobile ? 12 : this.particles.length; 
 
         for (let i = 0; i < activeParticles; i++) {
             let p = this.particles[i];
@@ -661,7 +780,7 @@ class HeroBackground {
             }
             this.ctx.lineCap = 'round';
             this.ctx.lineJoin = 'round';
-            this.ctx.lineWidth = 80; 
+            this.ctx.lineWidth = 80;
 
             let trailGrad = this.ctx.createLinearGradient(
                 this.mouseHistory[0].x, this.mouseHistory[0].y,
