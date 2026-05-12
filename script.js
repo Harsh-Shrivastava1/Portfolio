@@ -1,3 +1,240 @@
+// Premium Hero Background Animation
+class HeroBackground {
+    constructor() {
+        this.canvas = document.getElementById('hero-canvas');
+        if (!this.canvas) return;
+        this.ctx = this.canvas.getContext('2d', { alpha: true });
+        this.resize();
+        window.addEventListener('resize', this.resize.bind(this));
+
+        this.time = 0;
+        this.mouseX = this.width / 2;
+        this.mouseY = this.height / 2;
+        this.targetMouseX = this.width / 2;
+        this.targetMouseY = this.height / 2;
+
+        this.mouseHistory = [];
+        this.maxHistory = 20;
+
+        // Global Floating Particles
+        const isMobile = window.innerWidth < 768;
+        this.particles = [];
+        const particleCount = isMobile ? 8 : 30;
+        for (let i = 0; i < particleCount; i++) {
+            this.particles.push({
+                x: Math.random() * this.width,
+                y: Math.random() * this.height,
+                size: isMobile ? (Math.random() * 10 + 5) : (Math.random() * 20 + 10),
+                speedX: (Math.random() - 0.5) * (isMobile ? 0.1 : 0.2),
+                speedY: (Math.random() - 0.5) * (isMobile ? 0.1 : 0.2),
+                baseOpacity: Math.random() * 0.08 + 0.02
+            });
+        }
+
+        // Global Ambient Blobs
+        this.ambientBlobs = [
+            { x: this.width * 0.2, y: this.height * 0.3, radius: 400, color: 'rgba(79, 140, 255, 0.05)', speedX: 0.1, speedY: 0.15 },
+            { x: this.width * 0.8, y: this.height * 0.7, radius: 500, color: 'rgba(123, 97, 255, 0.04)', speedX: -0.12, speedY: -0.1 },
+            { x: this.width * 0.5, y: this.height * 0.9, radius: 450, color: 'rgba(59, 130, 246, 0.05)', speedX: 0.08, speedY: -0.12 }
+        ];
+
+        document.addEventListener('pointermove', (e) => {
+            this.targetMouseX = e.clientX;
+            this.targetMouseY = e.clientY;
+        }, { passive: true });
+
+        // Always animate since it's a global background
+        this.isVisible = true;
+
+        this.animate();
+    }
+
+    resize() {
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        const dpr = window.devicePixelRatio || 1;
+        this.canvas.width = this.width * dpr;
+        this.canvas.height = this.height * dpr;
+        this.ctx.scale(dpr, dpr);
+        this.canvas.style.width = `${this.width}px`;
+        this.canvas.style.height = `${this.height}px`;
+    }
+
+    drawAmbientBlobs() {
+        for (let b of this.ambientBlobs) {
+            b.x += b.speedX;
+            b.y += b.speedY;
+
+            // Bounce off edges softly
+            if (b.x < -b.radius || b.x > this.width + b.radius) b.speedX *= -1;
+            if (b.y < -b.radius || b.y > this.height + b.radius) b.speedY *= -1;
+
+            let grad = this.ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.radius);
+            grad.addColorStop(0, b.color);
+            grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+            this.ctx.beginPath();
+            this.ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
+            this.ctx.fillStyle = grad;
+            this.ctx.fill();
+        }
+    }
+
+    drawFluidRibbons() {
+        const isMobile = window.innerWidth < 768;
+        const scrollOffset = window.scrollY; // Use scroll to parallax waves
+
+        const ribbons = [
+            { baseY: 0.60, amplitude: isMobile ? 60 : 140, thickness: isMobile ? 80 : 180, speed: 0.0002, color1: 'rgba(79, 140, 255, 0.08)', color2: 'rgba(123, 97, 255, 0)' },
+            { baseY: 0.72, amplitude: isMobile ? 50 : 110, thickness: isMobile ? 70 : 150, speed: 0.00035, color1: 'rgba(123, 97, 255, 0.06)', color2: 'rgba(79, 140, 255, 0)' },
+            { baseY: 0.85, amplitude: isMobile ? 40 : 80, thickness: isMobile ? 60 : 120, speed: 0.0005, color1: 'rgba(59, 130, 246, 0.09)', color2: 'rgba(167, 139, 250, 0)' }
+        ];
+
+        for (let j = 0; j < ribbons.length; j++) {
+            let rib = ribbons[j];
+            this.ctx.beginPath();
+
+            let pointsTop = [];
+            let pointsBottom = [];
+            let step = isMobile ? 80 : 50;
+
+            // Apply scroll parallax to Y position. Multiplying by 0.7 creates a soft delay effect.
+            let baseY = (this.height * rib.baseY) - (scrollOffset * 0.7);
+
+            // Don't draw if completely out of view (optimization)
+            if (baseY + rib.amplitude + rib.thickness < 0) continue;
+
+            for (let x = 0; x <= this.width + step; x += step) {
+                let dx = x - this.mouseX;
+                let dy = baseY - this.mouseY;
+                let dist = Math.sqrt(dx * dx + dy * dy);
+
+                let influence = Math.max(0, 1 - dist / 900);
+
+                let offset = Math.sin(x * 0.0012 + this.time * rib.speed + j) * rib.amplitude +
+                    Math.cos(x * 0.0018 - this.time * rib.speed * 0.8 + j * 2) * (rib.amplitude * 0.5) -
+                    influence * 120 * Math.sin(this.time * 0.0015 - dx * 0.002);
+
+                pointsTop.push({ x: x, y: baseY + offset });
+                pointsBottom.push({ x: x, y: baseY + offset + rib.thickness + Math.sin(x * 0.002 + this.time * rib.speed * 1.5) * 40 });
+            }
+
+            if (pointsTop.length === 0) continue;
+
+            this.ctx.moveTo(pointsTop[0].x, pointsTop[0].y);
+            for (let i = 1; i < pointsTop.length; i++) this.ctx.lineTo(pointsTop[i].x, pointsTop[i].y);
+            for (let i = pointsBottom.length - 1; i >= 0; i--) this.ctx.lineTo(pointsBottom[i].x, pointsBottom[i].y);
+            this.ctx.closePath();
+
+            let grad = this.ctx.createLinearGradient(0, baseY - rib.amplitude, 0, baseY + rib.amplitude + rib.thickness);
+            grad.addColorStop(0, rib.color1);
+            grad.addColorStop(1, rib.color2);
+
+            this.ctx.fillStyle = grad;
+            this.ctx.fill();
+        }
+    }
+
+    drawGlassParticles() {
+        const isMobile = window.innerWidth < 768;
+        // Optimized: significantly fewer particles on mobile
+        const activeParticles = this.particles.length; 
+
+        for (let i = 0; i < activeParticles; i++) {
+            let p = this.particles[i];
+            p.x += p.speedX;
+            p.y += p.speedY;
+
+            let dx = p.x - this.mouseX;
+            let dy = p.y - this.mouseY;
+            let dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 400) {
+                p.x += dx * 0.0015;
+                p.y += dy * 0.0015;
+                p.opacity = p.baseOpacity + (1 - dist / 400) * 0.15;
+            } else {
+                p.opacity = p.baseOpacity;
+            }
+
+            if (p.x < -100) p.x = this.width + 100;
+            if (p.x > this.width + 100) p.x = -100;
+            if (p.y < -100) p.y = this.height + 100;
+            if (p.y > this.height + 100) p.y = -100;
+
+            let grad = this.ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
+            grad.addColorStop(0, `rgba(255, 255, 255, ${p.opacity * 1.5})`);
+            grad.addColorStop(0.4, `rgba(255, 255, 255, ${p.opacity * 0.8})`);
+            grad.addColorStop(1, `rgba(255, 255, 255, 0)`);
+
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            this.ctx.fillStyle = grad;
+            this.ctx.fill();
+
+            this.ctx.lineWidth = 0.5;
+            this.ctx.strokeStyle = `rgba(255, 255, 255, ${p.opacity * 0.5})`;
+            this.ctx.stroke();
+        }
+    }
+
+    drawCursorGlow() {
+        this.mouseHistory.unshift({ x: this.mouseX, y: this.mouseY });
+        if (this.mouseHistory.length > this.maxHistory) {
+            this.mouseHistory.pop();
+        }
+
+        if (this.mouseHistory.length > 1) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(this.mouseHistory[0].x, this.mouseHistory[0].y);
+            for (let i = 1; i < this.mouseHistory.length; i++) {
+                this.ctx.lineTo(this.mouseHistory[i].x, this.mouseHistory[i].y);
+            }
+            this.ctx.lineCap = 'round';
+            this.ctx.lineJoin = 'round';
+            this.ctx.lineWidth = 80;
+
+            let trailGrad = this.ctx.createLinearGradient(
+                this.mouseHistory[0].x, this.mouseHistory[0].y,
+                this.mouseHistory[this.mouseHistory.length - 1].x, this.mouseHistory[this.mouseHistory.length - 1].y
+            );
+            trailGrad.addColorStop(0, 'rgba(79, 140, 255, 0.06)');
+            trailGrad.addColorStop(1, 'rgba(123, 97, 255, 0)');
+
+            this.ctx.strokeStyle = trailGrad;
+            this.ctx.stroke();
+        }
+
+        let radius = 180;
+        let glowGrad = this.ctx.createRadialGradient(this.mouseX, this.mouseY, 0, this.mouseX, this.mouseY, radius);
+        glowGrad.addColorStop(0, 'rgba(79, 140, 255, 0.12)');
+        glowGrad.addColorStop(0.5, 'rgba(123, 97, 255, 0.08)');
+        glowGrad.addColorStop(1, 'rgba(123, 97, 255, 0)');
+
+        this.ctx.beginPath();
+        this.ctx.arc(this.mouseX, this.mouseY, radius, 0, Math.PI * 2);
+        this.ctx.fillStyle = glowGrad;
+        this.ctx.fill();
+    }
+
+    animate() {
+        if (!this.isVisible) return;
+
+        this.ctx.clearRect(0, 0, this.width, this.height);
+
+        this.mouseX += (this.targetMouseX - this.mouseX) * 0.1;
+        this.mouseY += (this.targetMouseY - this.mouseY) * 0.1;
+
+        this.drawAmbientBlobs();
+        this.drawCursorGlow();
+        this.drawGlassParticles();
+        this.drawFluidRibbons();
+
+        this.time += 16;
+        requestAnimationFrame(this.animate.bind(this));
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     // Navbar hide/show on scroll direction (fixed flicker, stable direction, threshold)
     const navbar = document.querySelector('.navbar');
@@ -68,14 +305,7 @@ document.addEventListener("DOMContentLoaded", () => {
             body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
         });
 
-        // Close menu on link click
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('active');
-                body.style.overflow = '';
-            });
-        });
+        // Close menu logic is now handled by the robust scroll delegation below
     }
 
     console.log("Page Loaded");
@@ -139,21 +369,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    gsap.utils.toArray('.parallax').forEach(layer => {
-        const depth = layer.dataset.depth;
-        const movement = -(layer.offsetHeight * depth);
-        gsap.to(layer, {
-            y: movement,
-            ease: "none",
-            scrollTrigger: {
-                trigger: layer,
-                start: "top top",
-                end: "bottom top",
-                scrub: true,
-                invalidateOnRefresh: true // Better for responsive changes
-            }
+    const parallaxElements = gsap.utils.toArray('.parallax');
+    if (parallaxElements.length > 0) {
+        parallaxElements.forEach(layer => {
+            const depth = layer.dataset.depth;
+            const movement = -(layer.offsetHeight * depth);
+            gsap.to(layer, {
+                y: movement,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: layer,
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true,
+                    invalidateOnRefresh: true 
+                }
+            });
         });
-    });
+    }
 
     //  3D Tilt cards
     VanillaTilt.init(document.querySelectorAll(".skill-card, .project-card, .certificate-card"), {
@@ -237,35 +470,55 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    //  Smooth scrolling with page transition
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
-            pageTransition();
-            
-            setTimeout(() => {
-                const target = document.querySelector(targetId);
-                if (target) {
-                    gsap.to(window, {
-                        duration: 1.2,
-                        scrollTo: {
-                            y: target,
-                            offsetY: 70,
-                            autoKill: true
-                        },
-                        ease: "power3.inOut" // Smoother, lighter ease
-                    });
-                }
-            }, 400); // Reduced delay
-        });
+    //  Robust smooth scrolling using event delegation
+    document.addEventListener('click', function(e) {
+        const anchor = e.target.closest('a[href^="#"]');
+        if (!anchor) return;
+
+        const targetId = anchor.getAttribute('href');
+        if (targetId === '#' || !targetId.startsWith('#')) return;
+        
+        const target = document.querySelector(targetId);
+        if (!target) return;
+
+        e.preventDefault();
+        
+        // Close mobile menu immediately
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        if (hamburger && navLinks) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Perform scroll using GSAP with native fallback
+        if (window.gsap && window.ScrollToPlugin) {
+            gsap.to(window, {
+                duration: 1,
+                scrollTo: {
+                    y: target,
+                    offsetY: 80,
+                    autoKill: true
+                },
+                ease: "power2.inOut"
+            });
+        } else {
+            const offset = 80;
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = target.getBoundingClientRect().top;
+            const elementPosition = elementRect - bodyRect;
+            const offsetPosition = elementPosition - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
     });
 
     // Contact Form Animation & UX Enhancements
-
-    const formSection = document.querySelector('#message');
+    const formSection = document.querySelector('#contact-form-section');
     if (formSection) {
         gsap.from(formSection, {
             opacity: 0,
@@ -524,6 +777,27 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+    // Active Nav Link Highlighting
+    const sections = document.querySelectorAll('section[id]');
+    sections.forEach(section => {
+        ScrollTrigger.create({
+            trigger: section,
+            start: "top 120px",
+            end: "bottom 120px",
+            onEnter: () => activateNavLink(section.id),
+            onEnterBack: () => activateNavLink(section.id),
+        });
+    });
+
+    function activateNavLink(id) {
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${id}`) {
+                link.classList.add('active');
+            }
+        });
+    }
+
     //  Run animations
     initSkillsSection();
     animateAboutSection();
@@ -570,19 +844,22 @@ gsap.to('.social-link', {
 });
 
 // Parallax layers (if using .parallax-layer)
-gsap.utils.toArray('.parallax-layer').forEach(layer => {
-    const speed = layer.dataset.speed || 0.5;
-    gsap.to(layer, {
-        y: () => window.innerHeight * speed,
-        ease: 'none',
-        scrollTrigger: {
-            trigger: layer.parentElement,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true
-        }
+const parallaxLayers = gsap.utils.toArray('.parallax-layer');
+if (parallaxLayers.length > 0) {
+    parallaxLayers.forEach(layer => {
+        const speed = layer.dataset.speed || 0.5;
+        gsap.to(layer, {
+            y: () => window.innerHeight * speed,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: layer.parentElement,
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            }
+        });
     });
-});
+}
 
 
 
@@ -605,255 +882,24 @@ const timelineAnimation = () => {
 
 
 
-        gsap.from(item.querySelector('.timeline-card'), {
-            scrollTrigger: {
-                trigger: item,
-                start: "top 80%"
-            },
-            y: 30,
-            duration: 0.8,
-            delay: index * 0.2,
-            ease: "power2.out"
-        });
+        const card = item.querySelector('.timeline-card');
+        if (card) {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: item,
+                    start: "top 80%"
+                },
+                y: 30,
+                duration: 0.8,
+                delay: index * 0.2,
+                ease: "power2.out"
+            });
+        }
     });
 };
 
 // Premium Hero Background Animation
-class HeroBackground {
-    constructor() {
-        this.canvas = document.getElementById('hero-canvas');
-        if (!this.canvas) return;
-        this.ctx = this.canvas.getContext('2d', { alpha: true });
-        this.resize();
-        window.addEventListener('resize', this.resize.bind(this));
 
-        this.time = 0;
-        this.mouseX = this.width / 2;
-        this.mouseY = this.height / 2;
-        this.targetMouseX = this.width / 2;
-        this.targetMouseY = this.height / 2;
-
-        this.mouseHistory = [];
-        this.maxHistory = 20;
-
-        // Global Floating Particles
-        const isMobile = window.innerWidth < 768;
-        this.particles = [];
-        const particleCount = isMobile ? 8 : 30;
-        for (let i = 0; i < particleCount; i++) {
-            this.particles.push({
-                x: Math.random() * this.width,
-                y: Math.random() * this.height,
-                size: isMobile ? (Math.random() * 10 + 5) : (Math.random() * 20 + 10),
-                speedX: (Math.random() - 0.5) * (isMobile ? 0.1 : 0.2),
-                speedY: (Math.random() - 0.5) * (isMobile ? 0.1 : 0.2),
-                baseOpacity: Math.random() * 0.08 + 0.02
-            });
-        }
-
-        // Global Ambient Blobs
-        this.ambientBlobs = [
-            { x: this.width * 0.2, y: this.height * 0.3, radius: 400, color: 'rgba(79, 140, 255, 0.05)', speedX: 0.1, speedY: 0.15 },
-            { x: this.width * 0.8, y: this.height * 0.7, radius: 500, color: 'rgba(123, 97, 255, 0.04)', speedX: -0.12, speedY: -0.1 },
-            { x: this.width * 0.5, y: this.height * 0.9, radius: 450, color: 'rgba(59, 130, 246, 0.05)', speedX: 0.08, speedY: -0.12 }
-        ];
-
-        document.addEventListener('pointermove', (e) => {
-            this.targetMouseX = e.clientX;
-            this.targetMouseY = e.clientY;
-        }, { passive: true });
-
-        // Always animate since it's a global background
-        this.isVisible = true;
-
-        this.animate();
-    }
-
-    resize() {
-        this.width = window.innerWidth;
-        this.height = window.innerHeight;
-        const dpr = window.devicePixelRatio || 1;
-        this.canvas.width = this.width * dpr;
-        this.canvas.height = this.height * dpr;
-        this.ctx.scale(dpr, dpr);
-        this.canvas.style.width = `${this.width}px`;
-        this.canvas.style.height = `${this.height}px`;
-    }
-
-    drawAmbientBlobs() {
-        for (let b of this.ambientBlobs) {
-            b.x += b.speedX;
-            b.y += b.speedY;
-
-            // Bounce off edges softly
-            if (b.x < -b.radius || b.x > this.width + b.radius) b.speedX *= -1;
-            if (b.y < -b.radius || b.y > this.height + b.radius) b.speedY *= -1;
-
-            let grad = this.ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.radius);
-            grad.addColorStop(0, b.color);
-            grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-
-            this.ctx.beginPath();
-            this.ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
-            this.ctx.fillStyle = grad;
-            this.ctx.fill();
-        }
-    }
-
-    drawFluidRibbons() {
-        const isMobile = window.innerWidth < 768;
-        const scrollOffset = window.scrollY; // Use scroll to parallax waves
-
-        const ribbons = [
-            { baseY: 0.60, amplitude: isMobile ? 60 : 140, thickness: isMobile ? 80 : 180, speed: 0.0002, color1: 'rgba(79, 140, 255, 0.08)', color2: 'rgba(123, 97, 255, 0)' },
-            { baseY: 0.72, amplitude: isMobile ? 50 : 110, thickness: isMobile ? 70 : 150, speed: 0.00035, color1: 'rgba(123, 97, 255, 0.06)', color2: 'rgba(79, 140, 255, 0)' },
-            { baseY: 0.85, amplitude: isMobile ? 40 : 80, thickness: isMobile ? 60 : 120, speed: 0.0005, color1: 'rgba(59, 130, 246, 0.09)', color2: 'rgba(167, 139, 250, 0)' }
-        ];
-
-        for (let j = 0; j < ribbons.length; j++) {
-            let rib = ribbons[j];
-            this.ctx.beginPath();
-
-            let pointsTop = [];
-            let pointsBottom = [];
-            let step = isMobile ? 80 : 50;
-
-            // Apply scroll parallax to Y position. Multiplying by 0.7 creates a soft delay effect.
-            let baseY = (this.height * rib.baseY) - (scrollOffset * 0.7);
-
-            // Don't draw if completely out of view (optimization)
-            if (baseY + rib.amplitude + rib.thickness < 0) continue;
-
-            for (let x = 0; x <= this.width + step; x += step) {
-                let dx = x - this.mouseX;
-                let dy = baseY - this.mouseY;
-                let dist = Math.sqrt(dx * dx + dy * dy);
-
-                let influence = Math.max(0, 1 - dist / 900);
-
-                let offset = Math.sin(x * 0.0012 + this.time * rib.speed + j) * rib.amplitude +
-                    Math.cos(x * 0.0018 - this.time * rib.speed * 0.8 + j * 2) * (rib.amplitude * 0.5) -
-                    influence * 120 * Math.sin(this.time * 0.0015 - dx * 0.002);
-
-                pointsTop.push({ x: x, y: baseY + offset });
-                pointsBottom.push({ x: x, y: baseY + offset + rib.thickness + Math.sin(x * 0.002 + this.time * rib.speed * 1.5) * 40 });
-            }
-
-            if (pointsTop.length === 0) continue;
-
-            this.ctx.moveTo(pointsTop[0].x, pointsTop[0].y);
-            for (let i = 1; i < pointsTop.length; i++) this.ctx.lineTo(pointsTop[i].x, pointsTop[i].y);
-            for (let i = pointsBottom.length - 1; i >= 0; i--) this.ctx.lineTo(pointsBottom[i].x, pointsBottom[i].y);
-            this.ctx.closePath();
-
-            let grad = this.ctx.createLinearGradient(0, baseY - rib.amplitude, 0, baseY + rib.amplitude + rib.thickness);
-            grad.addColorStop(0, rib.color1);
-            grad.addColorStop(1, rib.color2);
-
-            this.ctx.fillStyle = grad;
-            this.ctx.fill();
-        }
-    }
-
-    drawGlassParticles() {
-        const isMobile = window.innerWidth < 768;
-        // Optimized: significantly fewer particles on mobile
-        const activeParticles = this.particles.length; 
-
-        for (let i = 0; i < activeParticles; i++) {
-            let p = this.particles[i];
-            p.x += p.speedX;
-            p.y += p.speedY;
-
-            let dx = p.x - this.mouseX;
-            let dy = p.y - this.mouseY;
-            let dist = Math.sqrt(dx * dx + dy * dy);
-
-            if (dist < 400) {
-                p.x += dx * 0.0015;
-                p.y += dy * 0.0015;
-                p.opacity = p.baseOpacity + (1 - dist / 400) * 0.15;
-            } else {
-                p.opacity = p.baseOpacity;
-            }
-
-            if (p.x < -100) p.x = this.width + 100;
-            if (p.x > this.width + 100) p.x = -100;
-            if (p.y < -100) p.y = this.height + 100;
-            if (p.y > this.height + 100) p.y = -100;
-
-            let grad = this.ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
-            grad.addColorStop(0, `rgba(255, 255, 255, ${p.opacity * 1.5})`);
-            grad.addColorStop(0.4, `rgba(255, 255, 255, ${p.opacity * 0.8})`);
-            grad.addColorStop(1, `rgba(255, 255, 255, 0)`);
-
-            this.ctx.beginPath();
-            this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            this.ctx.fillStyle = grad;
-            this.ctx.fill();
-
-            this.ctx.lineWidth = 0.5;
-            this.ctx.strokeStyle = `rgba(255, 255, 255, ${p.opacity * 0.5})`;
-            this.ctx.stroke();
-        }
-    }
-
-    drawCursorGlow() {
-        this.mouseHistory.unshift({ x: this.mouseX, y: this.mouseY });
-        if (this.mouseHistory.length > this.maxHistory) {
-            this.mouseHistory.pop();
-        }
-
-        if (this.mouseHistory.length > 1) {
-            this.ctx.beginPath();
-            this.ctx.moveTo(this.mouseHistory[0].x, this.mouseHistory[0].y);
-            for (let i = 1; i < this.mouseHistory.length; i++) {
-                this.ctx.lineTo(this.mouseHistory[i].x, this.mouseHistory[i].y);
-            }
-            this.ctx.lineCap = 'round';
-            this.ctx.lineJoin = 'round';
-            this.ctx.lineWidth = 80;
-
-            let trailGrad = this.ctx.createLinearGradient(
-                this.mouseHistory[0].x, this.mouseHistory[0].y,
-                this.mouseHistory[this.mouseHistory.length - 1].x, this.mouseHistory[this.mouseHistory.length - 1].y
-            );
-            trailGrad.addColorStop(0, 'rgba(79, 140, 255, 0.06)');
-            trailGrad.addColorStop(1, 'rgba(123, 97, 255, 0)');
-
-            this.ctx.strokeStyle = trailGrad;
-            this.ctx.stroke();
-        }
-
-        let radius = 180;
-        let glowGrad = this.ctx.createRadialGradient(this.mouseX, this.mouseY, 0, this.mouseX, this.mouseY, radius);
-        glowGrad.addColorStop(0, 'rgba(79, 140, 255, 0.12)');
-        glowGrad.addColorStop(0.5, 'rgba(123, 97, 255, 0.08)');
-        glowGrad.addColorStop(1, 'rgba(123, 97, 255, 0)');
-
-        this.ctx.beginPath();
-        this.ctx.arc(this.mouseX, this.mouseY, radius, 0, Math.PI * 2);
-        this.ctx.fillStyle = glowGrad;
-        this.ctx.fill();
-    }
-
-    animate() {
-        if (!this.isVisible) return;
-
-        this.ctx.clearRect(0, 0, this.width, this.height);
-
-        this.mouseX += (this.targetMouseX - this.mouseX) * 0.1;
-        this.mouseY += (this.targetMouseY - this.mouseY) * 0.1;
-
-        this.drawAmbientBlobs();
-        this.drawCursorGlow();
-        this.drawGlassParticles();
-        this.drawFluidRibbons();
-
-        this.time += 16;
-        requestAnimationFrame(this.animate.bind(this));
-    }
-}
 
 // Footer Modal Functionality
 document.addEventListener('DOMContentLoaded', () => {
