@@ -50,6 +50,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     console.log("Page Loaded");
 
+    // Initialize premium animated hero background
+    new HeroBackground();
+
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
     // Page transition animation wanna enhance it more
@@ -427,4 +430,153 @@ const timelineAnimation = () => {
         });
     });
 };
+
+// Premium Hero Background Animation
+class HeroBackground {
+    constructor() {
+        this.canvas = document.getElementById('hero-canvas');
+        if (!this.canvas) return;
+        this.ctx = this.canvas.getContext('2d', { alpha: true });
+        this.resize();
+        window.addEventListener('resize', this.resize.bind(this));
+
+        this.time = 0;
+        this.mouseX = this.width / 2;
+        this.mouseY = this.height / 2;
+        this.targetMouseX = this.width / 2;
+        this.targetMouseY = this.height / 2;
+
+        this.particles = [];
+        for (let i = 0; i < 40; i++) {
+            this.particles.push({
+                x: Math.random() * this.width,
+                y: Math.random() * this.height,
+                size: Math.random() * 2 + 0.5,
+                speedX: (Math.random() - 0.5) * 0.3,
+                speedY: (Math.random() - 0.5) * 0.3,
+                baseOpacity: Math.random() * 0.3 + 0.1
+            });
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            this.targetMouseX = e.clientX;
+            // Only care about mouse interactions when in or near the hero section
+            if (window.scrollY < window.innerHeight) {
+                this.targetMouseY = e.clientY + window.scrollY; 
+            }
+        });
+
+        // Use IntersectionObserver to pause animation when hero is out of view
+        this.isVisible = true;
+        const observer = new IntersectionObserver((entries) => {
+            this.isVisible = entries[0].isIntersecting;
+        }, { threshold: 0 });
+        
+        const heroSection = document.getElementById('home');
+        if (heroSection) observer.observe(heroSection);
+
+        this.animate();
+    }
+
+    resize() {
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        // Handle High DPI displays for sharper rendering
+        const dpr = window.devicePixelRatio || 1;
+        this.canvas.width = this.width * dpr;
+        this.canvas.height = this.height * dpr;
+        this.ctx.scale(dpr, dpr);
+        this.canvas.style.width = `${this.width}px`;
+        this.canvas.style.height = `${this.height}px`;
+    }
+
+    drawSilk() {
+        this.ctx.lineWidth = 1.2;
+        
+        const colors = [
+            'rgba(79, 140, 255, ',
+            'rgba(123, 97, 255, ',
+            'rgba(165, 180, 255, '
+        ];
+
+        for (let j = 0; j < 3; j++) {
+            for (let i = 0; i < 6; i++) {
+                this.ctx.beginPath();
+                let phase = i * 0.8 + j * 1.5;
+                let opacity = 0.12 - (i * 0.015);
+                this.ctx.strokeStyle = `${colors[j]}${opacity})`;
+                
+                for (let x = 0; x <= this.width; x += 30) {
+                    let dx = x - this.mouseX;
+                    // base Y concentrated at bottom half
+                    let baseY = this.height * 0.6 + i * 35 + j * 20; 
+                    let dy = baseY - this.mouseY;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    let influence = Math.max(0, 1 - dist / 600);
+                    
+                    let y = baseY + 
+                            Math.sin(x * 0.002 + phase + this.time * 0.0006) * 100 +
+                            Math.cos(x * 0.004 - phase + this.time * 0.0004) * 40 -
+                            influence * 60 * Math.sin(this.time * 0.002 - dx * 0.005);
+                    
+                    if (x === 0) this.ctx.moveTo(x, y);
+                    else {
+                        this.ctx.lineTo(x, y);
+                    }
+                }
+                this.ctx.stroke();
+            }
+        }
+    }
+
+    drawParticles() {
+        this.particles.forEach(p => {
+            p.x += p.speedX;
+            p.y += p.speedY;
+
+            // Subtle mouse repel/parallax
+            let dx = p.x - this.mouseX;
+            let dy = p.y - this.mouseY;
+            let dist = Math.sqrt(dx * dx + dy * dy);
+            
+            if (dist < 300) {
+                p.x += dx * 0.001;
+                p.y += dy * 0.001;
+                p.opacity = p.baseOpacity + (1 - dist/300) * 0.3; // glow when near mouse
+            } else {
+                p.opacity = p.baseOpacity;
+            }
+
+            // Wrap around
+            if (p.x < 0) p.x = this.width;
+            if (p.x > this.width) p.x = 0;
+            if (p.y < 0) p.y = this.height;
+            if (p.y > this.height) p.y = 0;
+
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            this.ctx.fillStyle = `rgba(79, 140, 255, ${p.opacity})`;
+            this.ctx.fill();
+        });
+    }
+
+    animate() {
+        if (!this.isVisible) {
+            requestAnimationFrame(this.animate.bind(this));
+            return;
+        }
+
+        this.ctx.clearRect(0, 0, this.width, this.height);
+        
+        // Mouse interpolation
+        this.mouseX += (this.targetMouseX - this.mouseX) * 0.06;
+        this.mouseY += (this.targetMouseY - this.mouseY) * 0.06;
+
+        this.drawParticles();
+        this.drawSilk();
+        
+        this.time += 16; 
+        requestAnimationFrame(this.animate.bind(this));
+    }
+}
 
