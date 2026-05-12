@@ -190,9 +190,14 @@ Every section is crafted to feel immersive, fluid, and refined.
 
 ---
 
-# 🚀 Getting Started
+# 📜 License
 
-## 1️⃣ Clone the Repository
+Copyright © 2026 Harsh Shrivastava. All Rights Reserved.
 
-```bash
-git clone https://github.com/yourusername/portfolio.git
+This portfolio, including its design, animations, UI/UX, and source code, is proprietary and protected under copyright law.
+
+You may not copy, reproduce, modify, redistribute, or reuse any part of this project without explicit permission.
+
+Inspiration and learning are allowed for personal educational purposes only.
+
+© 2026 Harsh Shrivastava
