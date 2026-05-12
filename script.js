@@ -342,6 +342,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //  Run animations
     animateSkills();
+    animateAboutSection();
     timelineAnimation();
 });
 
@@ -399,6 +400,43 @@ gsap.utils.toArray('.parallax-layer').forEach(layer => {
     });
 });
 
+// About Section Animation
+const animateAboutSection = () => {
+    gsap.from('.about-intro', {
+        scrollTrigger: {
+            trigger: '#about',
+            start: "top 80%"
+        },
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.out"
+    });
+
+    gsap.from('.about-details p', {
+        scrollTrigger: {
+            trigger: '#about',
+            start: "top 70%"
+        },
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.out"
+    });
+
+    gsap.from('.stat-item', {
+        scrollTrigger: {
+            trigger: '.about-stats',
+            start: "top 85%"
+        },
+        y: 40,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power2.out"
+    });
+};
+
 // Timeline animation 
 const timelineAnimation = () => {
     const timelineItems = document.querySelectorAll('.timeline-item');
@@ -447,36 +485,36 @@ class HeroBackground {
         this.targetMouseY = this.height / 2;
 
         this.mouseHistory = [];
-        this.maxHistory = 20; // length of trail
+        this.maxHistory = 20;
 
+        // Global Floating Particles
         this.particles = [];
-        for (let i = 0; i < 25; i++) {
+        for (let i = 0; i < 30; i++) {
             this.particles.push({
                 x: Math.random() * this.width,
                 y: Math.random() * this.height,
-                size: Math.random() * 20 + 10, // larger for glassmorphism
+                size: Math.random() * 20 + 10,
                 speedX: (Math.random() - 0.5) * 0.2,
                 speedY: (Math.random() - 0.5) * 0.2,
                 baseOpacity: Math.random() * 0.08 + 0.02
             });
         }
 
+        // Global Ambient Blobs
+        this.ambientBlobs = [
+            { x: this.width * 0.2, y: this.height * 0.3, radius: 400, color: 'rgba(79, 140, 255, 0.05)', speedX: 0.1, speedY: 0.15 },
+            { x: this.width * 0.8, y: this.height * 0.7, radius: 500, color: 'rgba(123, 97, 255, 0.04)', speedX: -0.12, speedY: -0.1 },
+            { x: this.width * 0.5, y: this.height * 0.9, radius: 450, color: 'rgba(59, 130, 246, 0.05)', speedX: 0.08, speedY: -0.12 }
+        ];
+
         document.addEventListener('pointermove', (e) => {
             this.targetMouseX = e.clientX;
-            // Only care about mouse interactions when in or near the hero section
-            if (window.scrollY < window.innerHeight) {
-                this.targetMouseY = e.clientY + window.scrollY;
-            }
+            // Since canvas is fixed to viewport, we just use clientY
+            this.targetMouseY = e.clientY;
         });
 
-        // Use IntersectionObserver to pause animation when hero is out of view
+        // Always animate since it's a global background
         this.isVisible = true;
-        const observer = new IntersectionObserver((entries) => {
-            this.isVisible = entries[0].isIntersecting;
-        }, { threshold: 0 });
-
-        const heroSection = document.getElementById('home');
-        if (heroSection) observer.observe(heroSection);
 
         this.animate();
     }
@@ -484,7 +522,6 @@ class HeroBackground {
     resize() {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
-        // Handle High DPI displays for sharper rendering
         const dpr = window.devicePixelRatio || 1;
         this.canvas.width = this.width * dpr;
         this.canvas.height = this.height * dpr;
@@ -493,12 +530,34 @@ class HeroBackground {
         this.canvas.style.height = `${this.height}px`;
     }
 
+    drawAmbientBlobs() {
+        for (let b of this.ambientBlobs) {
+            b.x += b.speedX;
+            b.y += b.speedY;
+
+            // Bounce off edges softly
+            if (b.x < -b.radius || b.x > this.width + b.radius) b.speedX *= -1;
+            if (b.y < -b.radius || b.y > this.height + b.radius) b.speedY *= -1;
+
+            let grad = this.ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.radius);
+            grad.addColorStop(0, b.color);
+            grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            
+            this.ctx.beginPath();
+            this.ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
+            this.ctx.fillStyle = grad;
+            this.ctx.fill();
+        }
+    }
+
     drawFluidRibbons() {
+        const isMobile = window.innerWidth < 768;
+        const scrollOffset = window.scrollY; // Use scroll to parallax waves
+        
         const ribbons = [
-            { baseY: 0.55, amplitude: 140, thickness: 180, speed: 0.0002, color1: 'rgba(79, 140, 255, 0.06)', color2: 'rgba(123, 97, 255, 0)' },
-            { baseY: 0.65, amplitude: 110, thickness: 150, speed: 0.0003, color1: 'rgba(123, 97, 255, 0.04)', color2: 'rgba(79, 140, 255, 0)' },
-            { baseY: 0.75, amplitude: 90, thickness: 130, speed: 0.0004, color1: 'rgba(59, 130, 246, 0.05)', color2: 'rgba(167, 139, 250, 0)' },
-            { baseY: 0.85, amplitude: 70, thickness: 100, speed: 0.0005, color1: 'rgba(167, 139, 250, 0.04)', color2: 'rgba(59, 130, 246, 0)' }
+            { baseY: 0.60, amplitude: 140, thickness: 180, speed: 0.0002, color1: 'rgba(79, 140, 255, 0.08)', color2: 'rgba(123, 97, 255, 0)' },
+            { baseY: 0.72, amplitude: 110, thickness: 150, speed: 0.00035, color1: 'rgba(123, 97, 255, 0.06)', color2: 'rgba(79, 140, 255, 0)' },
+            { baseY: 0.85, amplitude: 80, thickness: 120, speed: 0.0005, color1: 'rgba(59, 130, 246, 0.09)', color2: 'rgba(167, 139, 250, 0)' }
         ];
 
         for (let j = 0; j < ribbons.length; j++) {
@@ -507,28 +566,37 @@ class HeroBackground {
 
             let pointsTop = [];
             let pointsBottom = [];
+            let step = isMobile ? 80 : 50;
 
-            for (let x = 0; x <= this.width + 50; x += 50) {
+            // Apply scroll parallax to Y position. Multiplying by 0.7 creates a soft delay effect.
+            let baseY = (this.height * rib.baseY) - (scrollOffset * 0.7);
+
+            // Don't draw if completely out of view (optimization)
+            if (baseY + rib.amplitude + rib.thickness < 0) continue;
+
+            for (let x = 0; x <= this.width + step; x += step) {
                 let dx = x - this.mouseX;
-                let baseY = this.height * rib.baseY;
                 let dy = baseY - this.mouseY;
                 let dist = Math.sqrt(dx * dx + dy * dy);
-                let influence = Math.max(0, 1 - dist / 800);
+                
+                let influence = Math.max(0, 1 - dist / 900);
 
                 let offset = Math.sin(x * 0.0012 + this.time * rib.speed + j) * rib.amplitude +
                     Math.cos(x * 0.0018 - this.time * rib.speed * 0.8 + j * 2) * (rib.amplitude * 0.5) -
-                    influence * 80 * Math.sin(this.time * 0.0015 - dx * 0.002);
+                    influence * 120 * Math.sin(this.time * 0.0015 - dx * 0.002);
 
                 pointsTop.push({ x: x, y: baseY + offset });
                 pointsBottom.push({ x: x, y: baseY + offset + rib.thickness + Math.sin(x * 0.002 + this.time * rib.speed * 1.5) * 40 });
             }
+
+            if (pointsTop.length === 0) continue;
 
             this.ctx.moveTo(pointsTop[0].x, pointsTop[0].y);
             for (let i = 1; i < pointsTop.length; i++) this.ctx.lineTo(pointsTop[i].x, pointsTop[i].y);
             for (let i = pointsBottom.length - 1; i >= 0; i--) this.ctx.lineTo(pointsBottom[i].x, pointsBottom[i].y);
             this.ctx.closePath();
 
-            let grad = this.ctx.createLinearGradient(0, this.height * rib.baseY - rib.amplitude, 0, this.height * rib.baseY + rib.amplitude + rib.thickness);
+            let grad = this.ctx.createLinearGradient(0, baseY - rib.amplitude, 0, baseY + rib.amplitude + rib.thickness);
             grad.addColorStop(0, rib.color1);
             grad.addColorStop(1, rib.color2);
 
@@ -538,7 +606,11 @@ class HeroBackground {
     }
 
     drawGlassParticles() {
-        this.particles.forEach(p => {
+        const isMobile = window.innerWidth < 768;
+        const activeParticles = isMobile ? Math.floor(this.particles.length / 2) : this.particles.length;
+
+        for (let i = 0; i < activeParticles; i++) {
+            let p = this.particles[i];
             p.x += p.speedX;
             p.y += p.speedY;
 
@@ -569,11 +641,10 @@ class HeroBackground {
             this.ctx.fillStyle = grad;
             this.ctx.fill();
 
-            // Soft border
             this.ctx.lineWidth = 0.5;
             this.ctx.strokeStyle = `rgba(255, 255, 255, ${p.opacity * 0.5})`;
             this.ctx.stroke();
-        });
+        }
     }
 
     drawCursorGlow() {
@@ -582,7 +653,6 @@ class HeroBackground {
             this.mouseHistory.pop();
         }
 
-        // Draw Trail
         if (this.mouseHistory.length > 1) {
             this.ctx.beginPath();
             this.ctx.moveTo(this.mouseHistory[0].x, this.mouseHistory[0].y);
@@ -591,24 +661,23 @@ class HeroBackground {
             }
             this.ctx.lineCap = 'round';
             this.ctx.lineJoin = 'round';
-            this.ctx.lineWidth = 60;
+            this.ctx.lineWidth = 80; 
 
             let trailGrad = this.ctx.createLinearGradient(
                 this.mouseHistory[0].x, this.mouseHistory[0].y,
                 this.mouseHistory[this.mouseHistory.length - 1].x, this.mouseHistory[this.mouseHistory.length - 1].y
             );
-            trailGrad.addColorStop(0, 'rgba(79, 140, 255, 0.05)');
+            trailGrad.addColorStop(0, 'rgba(79, 140, 255, 0.06)');
             trailGrad.addColorStop(1, 'rgba(123, 97, 255, 0)');
 
             this.ctx.strokeStyle = trailGrad;
             this.ctx.stroke();
         }
 
-        // Draw Main Glow
-        let radius = 100;
+        let radius = 180;
         let glowGrad = this.ctx.createRadialGradient(this.mouseX, this.mouseY, 0, this.mouseX, this.mouseY, radius);
-        glowGrad.addColorStop(0, 'rgba(79, 140, 255, 0.15)');
-        glowGrad.addColorStop(0.4, 'rgba(123, 97, 255, 0.12)');
+        glowGrad.addColorStop(0, 'rgba(79, 140, 255, 0.12)');
+        glowGrad.addColorStop(0.5, 'rgba(123, 97, 255, 0.08)');
         glowGrad.addColorStop(1, 'rgba(123, 97, 255, 0)');
 
         this.ctx.beginPath();
@@ -618,17 +687,14 @@ class HeroBackground {
     }
 
     animate() {
-        if (!this.isVisible) {
-            requestAnimationFrame(this.animate.bind(this));
-            return;
-        }
+        if (!this.isVisible) return;
 
         this.ctx.clearRect(0, 0, this.width, this.height);
 
-        // Smooth interpolation
         this.mouseX += (this.targetMouseX - this.mouseX) * 0.1;
         this.mouseY += (this.targetMouseY - this.mouseY) * 0.1;
 
+        this.drawAmbientBlobs();
         this.drawCursorGlow();
         this.drawGlassParticles();
         this.drawFluidRibbons();
@@ -638,3 +704,44 @@ class HeroBackground {
     }
 }
 
+// Footer Modal Functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const modalBtns = document.querySelectorAll('.footer-btn');
+    const overlay = document.getElementById('modal-overlay');
+    const closeBtns = document.querySelectorAll('.modal-close');
+    const modals = document.querySelectorAll('.legal-modal');
+
+    function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal && overlay) {
+            overlay.classList.add('active');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // lock scroll
+        }
+    }
+
+    function closeModal() {
+        if (overlay) overlay.classList.remove('active');
+        modals.forEach(m => m.classList.remove('active'));
+        document.body.style.overflow = ''; // restore scroll
+    }
+
+    modalBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const modalId = btn.getAttribute('data-modal');
+            openModal(modalId);
+        });
+    });
+
+    closeBtns.forEach(btn => {
+        btn.addEventListener('click', closeModal);
+    });
+
+    if (overlay) {
+        overlay.addEventListener('click', closeModal);
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
+});

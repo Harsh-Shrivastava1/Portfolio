@@ -35,11 +35,9 @@
         </div>
     </nav>
 
+    <canvas id="hero-canvas" class="hero-canvas"></canvas>
+    <div class="noise-overlay"></div>
     <section id="home" class="hero">
-        <canvas id="hero-canvas" class="hero-canvas"></canvas>
-        <div class="noise-overlay"></div>
-        <div class="hero-ambient-light hero-ambient-light-1"></div>
-        <div class="hero-ambient-light hero-ambient-light-2"></div>
         <div class="hero-content">
             <div class="hero-text">
                 <div class="greeting">Hello, I'm</div>
@@ -103,6 +101,7 @@ Let’s connect and bring amazing ideas to life together!</p>
             </div>
         </div>
     </section>
+
 
     <section id="education" class="education section">
         <div class="section-header">
@@ -862,8 +861,68 @@ With a clean UI, smooth transitions, and a focus on clarity, BreakPoint transfor
  
 
     <footer>
-       
+        <div class="footer-nav">
+            <button class="footer-btn" data-modal="privacy-modal">Privacy Policy</button>
+            <button class="footer-btn" data-modal="terms-modal">Terms of Use</button>
+            <button class="footer-btn" data-modal="design-modal">Design Rights</button>
+            <button class="footer-btn" data-modal="source-modal">Source Usage</button>
+        </div>
         <p>&copy; 2026 Harsh Shrivastava. All rights reserved.</p>
     </footer>
+
+    <!-- Global Modal Overlay -->
+    <div class="modal-overlay" id="modal-overlay"></div>
+    
+    <!-- Legal Modals -->
+    <div class="legal-modal" id="privacy-modal">
+        <button class="modal-close" aria-label="Close modal"><i class="fas fa-times"></i></button>
+        <h3>Privacy Policy</h3>
+        <div class="modal-content">
+            <ul>
+                <li>This portfolio does not collect sensitive personal information.</li>
+                <li>The contact form is used solely for professional communication.</li>
+                <li>No data selling or unauthorized sharing occurs on this site.</li>
+                <li>User privacy is strictly respected at all times.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="legal-modal" id="terms-modal">
+        <button class="modal-close" aria-label="Close modal"><i class="fas fa-times"></i></button>
+        <h3>Terms of Use</h3>
+        <div class="modal-content">
+            <ul>
+                <li>Portfolio content is intended for personal and professional viewing only.</li>
+                <li>Unauthorized redistribution of website content is strictly prohibited.</li>
+                <li>Users should not misuse website resources or attempt to disrupt service.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="legal-modal" id="design-modal">
+        <button class="modal-close" aria-label="Close modal"><i class="fas fa-times"></i></button>
+        <h3>Design Rights</h3>
+        <div class="modal-content">
+            <ul>
+                <li>The website UI/UX design is original work.</li>
+                <li>Copying the design structure or assets without permission is prohibited.</li>
+                <li>The visual identity and branding belong exclusively to the portfolio owner.</li>
+                <li>Design inspiration is allowed, but direct duplication is prohibited.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="legal-modal" id="source-modal">
+        <button class="modal-close" aria-label="Close modal"><i class="fas fa-times"></i></button>
+        <h3>Source Usage</h3>
+        <div class="modal-content">
+            <ul>
+                <li>The source code for this portfolio is protected.</li>
+                <li>Unauthorized copying, reuploading, or reselling is strictly prohibited.</li>
+                <li>Educational inspiration and viewing is permitted.</li>
+                <li>Cloning or reproducing the full portfolio without explicit permission is not allowed.</li>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>
