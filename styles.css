@@ -1963,63 +1963,60 @@ body {
 /* Footer */
 footer {
     text-align: center;
-    padding: 3rem 2rem;
+    padding: 1.4rem 2rem;
     background: transparent;
-    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    border-top: 1px solid rgba(37, 99, 235, 0.1);
     position: relative;
     z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
 }
 
 .footer-nav {
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 2.5rem;
-    margin-bottom: 2rem;
+    gap: 0;
+    margin-bottom: 0;
 }
 
 .footer-btn {
     background: none;
     border: none;
-    color: var(--primary-color);
-    font-size: 0.95rem;
+    color: #94a3b8;
+    font-size: 0.8rem;
     font-weight: 500;
     cursor: pointer;
     position: relative;
-    padding: 0.5rem;
-    transition: all 0.3s ease;
-    opacity: 0.8;
+    padding: 0.2rem 0.75rem;
+    transition: color 0.2s ease;
     font-family: inherit;
+    letter-spacing: 0.01em;
 }
 
-.footer-btn::after {
-    content: '';
+.footer-btn + .footer-btn::before {
+    content: '·';
     position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 2px;
-    background: var(--primary-color);
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #cbd5e1;
+    font-size: 1rem;
 }
 
 .footer-btn:hover {
-    opacity: 1;
-    transform: translateY(-2px);
-    text-shadow: 0 0 10px rgba(37, 99, 235, 0.2);
-}
-
-.footer-btn:hover::after {
-    width: 100%;
+    color: var(--primary-color);
 }
 
 footer p {
-    color: #64748b;
-    font-size: 0.9rem;
-    opacity: 0.8;
+    color: #94a3b8;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    margin: 0;
 }
 
 /* Modal Overlay */
@@ -3208,12 +3205,13 @@ footer p {
     /* FOOTER FIX */
     footer {
         padding-bottom: 80px !important; /* Space for social dock */
+        flex-direction: column !important;
+        gap: 0.75rem !important;
     }
 
     .footer-nav {
-        flex-direction: column !important;
-        gap: 0.75rem !important;
-        margin-bottom: 1.5rem !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
     }
 
     /* MODAL FIX */
