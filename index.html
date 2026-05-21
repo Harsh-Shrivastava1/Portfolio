@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harsh's Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <script defer src="script.js"></script>
+    <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
+    <script src="https://unpkg.com/vanilla-tilt@1.7.0/dist/vanilla-tilt.min.js"></script>
+</head>
+
+<body>
+    <div class="transition-overlay"></div>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo"></div>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#education" class="nav-link">Education</a></li>
+                <li><a href="#certificates" class="nav-link">Certificates</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <canvas id="hero-canvas" class="hero-canvas"></canvas>
+    <div class="noise-overlay"></div>
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="greeting">Hello, I'm</div>
+                <h1 class="name-animation">
+                    <span class="highlight">Harsh Shrivastava</span>
+                </h1>
+                <div class="role-container">
+                    <h2 class="typewriter">Aspiring Software Developer.</h2>
+                </div>
+                <p class="hero-description">Crafting digital experiences through clean code and creative design.</p>
+                <div class="cta-buttons">
+                    <a href="#projects" class="btn primary">View My Work</a>
+                    <a href="#contact" class="btn secondary">Contact Me</a>
+                    <a href="https://drive.google.com/file/d/1yZiX_GzHP4Wlk9VtNpzCaFYCT3RvC0kd/view?usp=sharing"
+                        class="btn secondary" target="_blank">Resume</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="profile-blob"></div>
+                <div class="profile-container">
+                    <img src="bjbjb.jpg" alt="Profile Picture" class="profile-pic">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about section">
+        <div class="about-container">
+            <div class="section-header-new">
+                <span class="about-badge">ABOUT ME</span>
+                <h2 class="about-title">Building digital experiences <br>that make an impact.</h2>
+                <p class="about-subtitle">Aspiring Software Engineer specializing in Web Development, SAP, and scalable
+                    tech solutions.</p>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-left">
+                    <div class="about-text-content">
+                        <p>Hi, I'm <span class="text-highlight">Harsh Shrivastava</span>, a B.Tech CSE (SAP) student at
+                            Parul Institute of Engineering and Technology.</p>
+                        <p>I enjoy turning complex ideas into simple, functional, and visually appealing web
+                            applications.</p>
+                        <p>I'm passionate about learning new technologies and building clean, efficient, and
+                            user-friendly solutions.</p>
+                    </div>
+                    <div class="about-tag">
+                        <span><i class="fas fa-sparkles"></i> Always learning. Always building.</span>
+                    </div>
+                </div>
+
+                <div class="about-right">
+                    <div class="feature-visual-area">
+                        <div class="feature-card f-1">
+                            <div class="feature-icon"><i class="fas fa-code"></i></div>
+                            <div class="feature-info">
+                                <h3>Web Development</h3>
+                                <p>Building responsive, fast and modern web apps.</p>
+                            </div>
+                        </div>
+                        <div class="feature-card f-2">
+                            <div class="feature-icon"><i class="fas fa-layer-group"></i></div>
+                            <div class="feature-info">
+                                <h3>SAP & Backend</h3>
+                                <p>Working with SAP technologies and building robust backend.</p>
+                            </div>
+                        </div>
+                        <div class="feature-card f-3">
+                            <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
+                            <div class="feature-info">
+                                <h3>Clean Code</h3>
+                                <p>Writing maintainable, scalable and efficient code.</p>
+                            </div>
+                        </div>
+                        <div class="feature-card f-4">
+                            <div class="feature-icon"><i class="fas fa-user-gear"></i></div>
+                            <div class="feature-info">
+                                <h3>Problem Solving</h3>
+                                <p>Turning challenges into smart, practical solutions.</p>
+                            </div>
+                        </div>
+                        <div class="ambient-glow"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-stats-bar">
+                <div class="stat-item">
+                    <i class="fas fa-folder-open"></i>
+                    <div class="stat-info">
+                        <span class="stat-number">10+</span>
+                        <span class="stat-label">Projects Completed</span>
+                    </div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <i class="fas fa-code-branch"></i>
+                    <div class="stat-info">
+                        <span class="stat-number">5+</span>
+                        <span class="stat-label">Technologies</span>
+                    </div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <i class="fas fa-rocket"></i>
+                    <div class="stat-info">
+                        <span class="stat-number">3+</span>
+                        <span class="stat-label">Years of Learning</span>
+                    </div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="education" class="education section">
+        <div class="section-header">
+            <h2>Education</h2>
+            <div class="section-line"></div>
+        </div>
+        <div class="education-timeline">
+            <div class="timeline-line"></div>
+
+            <div class="timeline-item" data-tilt>
+                <div class="timeline-date">
+                    <span>2024 - 2028</span>
+                </div>
+                <div class="timeline-card">
+                    <div class="education-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>
+                        <a href="https://paruluniversity.ac.in/" target="_blank"
+                            style="text-decoration:none; color:inherit;">Parul Institute of Engineering and
+                            Technology</a>
+                    </h3>
+                    <p>Vadodara , Gujarat</p>
+                    <div class="education-content">
+                        <h4>B.Tech in Computer Science with specialization in SAP </h4>
+                        <div class="skills-learned">
+                            <span>Java</span>
+                            <span>Python</span>
+                            <span>Web Development</span>
+                            <span>DSA</span>
+                            <h4>Current CGPA- 7.60</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-tilt>
+                <div class="timeline-date">
+                    <span>2022 - 2024</span>
+                </div>
+                <div class="timeline-card">
+                    <div class="education-icon">
+                        <i class="fas fa-school"></i>
+                    </div>
+                    <h3>
+                        <a href="https://kpsraipur.com/" target="_blank"
+                            style="text-decoration:none; color:inherit;">Krishna Public School</a>
+                    </h3>
+                    <p>Raipur, Chhattisgarh</p>
+                    <div class="education-content">
+                        <h4>Higher Secondary Education (HSC)</h4>
+                        <div class="skills-learned">
+                            <span>Physics</span>
+                            <span>Chemistry</span>
+                            <span>Mathematics</span>
+                            <span>Computer Science</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-tilt>
+                <div class="education-content">
+                    <span></span>
+                </div>
+            </div>
+    </section>
+
+    <section id="certificates" class="certificates section">
+        <div class="section-header">
+            <h2>Certificates & Achievements</h2>
+            <div class="section-line"></div>
+        </div>
+        <div class="certificates-container">
+            <div class="certificate-card" data-tilt>
+                <div class="certificate-image">
+                    <img src="javascript.png" alt="W=JavaScript" class="certificate-img">
+                </div>
+                <div class="certificate-content">
+                    <div class="certificate-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>IT Specialist - JavaScript</h3>
+                    <p class="certificate-issuer">Certiport</p>
+                    <p class="certificate-date">2025</p>
+                    <p class="certificate-description">Earned the Certiport IT Specialist certification in JavaScript,
+                        demonstrating proficiency in DOM manipulation, control structures, functions, and ES6+ syntax.
+                        This credential reflects my ability to build dynamic, interactive web applications using core
+                        JavaScript skills.</p>
+                    <div class="certificate-tags">
+
+                    </div>
+                </div>
+                <div class="certificate-actions">
+                    <a href="javascript.png" class="btn small"><i class="fas fa-eye"></i> View</a>
+                    <a href="https://www.credly.com/earner/earned/badge/f7a249b3-4ca4-45ff-b7f0-48f1880b67ed"
+                        class="btn small secondary" target="_blank"><i class="fas fa-external-link-alt"></i> Verify</a>
+                </div>
+            </div>
+
+            <div class="certificate-card" data-tilt>
+                <div class="certificate-image">
+                    <img src="python.png" alt="Python Certificate" class="certificate-img">
+                </div>
+                <div class="certificate-content">
+                    <div class="certificate-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Python</h3>
+                    <p class="certificate-issuer">IBM</p>
+                    <p class="certificate-date">2025</p>
+                    <p class="certificate-description">Successfully completed the IBM Python certification, covering
+                        core programming concepts, scripting, and backend logic. This certification reflects my strong
+                        foundation in Python and its practical use in projects like API development and automation.</p>
+
+                </div>
+                <div class="certificate-actions">
+                    <a href="python.png" class="btn small"><i class="fas fa-eye"></i> View</a>
+                    <a href="https://courses.etrain.skillsnetwork.site/certificates/746ab7414763489388a147c94677d3d8"
+                        class="btn small secondary"><i class="fas fa-external-link-alt"></i> Verify</a>
+                </div>
+            </div>
+
+            <div class="certificate-card" data-tilt>
+                <div class="certificate-image">
+                    <img src="Screenshot 2025-11-03 212146.png" alt="Java Certificate" class="certificate-img">
+                </div>
+                <div class="certificate-content">
+                    <div class="certificate-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Oracle Cloud Infrastructure Certified Generative AI Professional </h3>
+                    <p class="certificate-issuer">Oracle</p>
+                    <p class="certificate-date">2025</p>
+                    <p class="certificate-description">Earned the Oracle Certified Professional credential in Oracle
+                        Cloud Infrastructure 2025 – Generative AI, demonstrating expertise in deploying, managing, and
+                        optimizing AI-driven cloud solutions. This certification validates my proficiency in generative
+                        AI frameworks, cloud architecture, and secure infrastructure design, reflecting a strong
+                        commitment to innovation and technical excellence in Oracle Cloud technologies.</p>
+                    <div class="certificate-tags">
+
+                    </div>
+                </div>
+                <div class="certificate-actions">
+                    <a href="Screenshot 2025-11-03 212146.png" class="btn small"><i class="fas fa-eye"></i> View</a>
+                    <a href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=4B53DD26105978F8CEEE063C4A36CB1458B09AE5E43E724FC89145EB2095205D"
+                        class="btn small secondary"><i class="fas fa-external-link-alt"></i> Verify</a>
+                </div>
+            </div>
+
+            <div class="certificate-card" data-tilt>
+                <div class="certificate-image">
+                    <img src="gdg.jpg" alt="Java Certificate" class="certificate-img">
+                </div>
+                <div class="certificate-content">
+                    <div class="certificate-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Solution Challenge</h3>
+                    <p class="certificate-issuer">Google Developer Group</p>
+                    <p class="certificate-date">2025</p>
+                    <p class="certificate-description">Earned the Certificate of Achievement in the GDG on Campus
+                        Solution Challenge, presented by Google Developer Groups On Campus and powered by Hack2Skill.
+                        This recognition highlights my contribution of an innovative idea that leverages AI to solve
+                        real-world problems.</p>
+                    <div class="certificate-tags">
+
+                    </div>
+                </div>
+                <div class="certificate-actions">
+                    <a href="gdg.jpg" class="btn small"><i class="fas fa-eye"></i> View</a>
+                    <a href="https://certificate.hack2skill.com/user/gdgscsubmissions/2025H2S01GSC-I04280"
+                        class="btn small secondary"><i class="fas fa-external-link-alt"></i> Verify</a>
+                </div>
+            </div>
+
+            <div class="certificate-card" data-tilt>
+                <div class="certificate-image">
+                    <img src="Screenshot 2025-11-03 215530.png" alt="Java Certificate" class="certificate-img">
+                </div>
+                <div class="certificate-content">
+                    <div class="certificate-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Gemini Certified Student</h3>
+                    <p class="certificate-issuer">Google For Education</p>
+                    <p class="certificate-date">2025</p>
+                    <p class="certificate-description">Earned the Google Gemini Certified Student credential,
+                        demonstrating knowledge, skills, and foundational competencies in utilizing Google AI
+                        technologies. This certification validates my ability to effectively apply AI tools and concepts
+                        for problem-solving, productivity enhancement, and innovation using Google’s Gemini platform.
+                    </p>
+                    <div class="certificate-tags">
+
+                    </div>
+                </div>
+                <div class="certificate-actions">
+                    <a href="Screenshot 2025-11-03 215530.png" class="btn small"><i class="fas fa-eye"></i> View</a>
+                    <a href="https://edu.google.accredible.com/96be980b-4b64-465a-93c2-94098beb5798#acc.QZYMpPWN"
+                        class="btn small secondary"><i class="fas fa-external-link-alt"></i> Verify</a>
+                </div>
+            </div>
+
+            <div class="certificate-card" data-tilt>
+                <div class="certificate-image">
+                    <img src="Screenshot 2025-11-06 204953.png" alt="Java Certificate" class="certificate-img">
+                </div>
+                <div class="certificate-content">
+                    <div class="certificate-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Java</h3>
+                    <p class="certificate-issuer">HackerRank</p>
+                    <p class="certificate-date">2025</p>
+                    <p class="certificate-description">Earned the Java certification from HackerRank, demonstrating
+                        proficiency in Java programming concepts, problem-solving skills, and the ability to write
+                        efficient code. This certification validates my expertise in Java and my readiness to tackle
+                        real-world programming challenges.</p>
+                    <div class="certificate-tags">
+
+                    </div>
+                </div>
+                <div class="certificate-actions">
+                    <a href="Screenshot 2025-11-06 204953.png" class="btn small"><i class="fas fa-eye"></i> View</a>
+                    <a href="https://www.hackerrank.com/certificates/f7e7e00bf6c0" class="btn small secondary"><i
+                            class="fas fa-external-link-alt"></i> Verify</a>
+                </div>
+            </div>
+
+            <div class="certificate-card" data-tilt>
+                <div class="certificate-image">
+                    <img src="Screenshot 2026-04-05 102415.png" alt="Java Certificate" class="certificate-img">
+                </div>
+                <div class="certificate-content">
+                    <div class="certificate-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Statistics 101</h3>
+                    <p class="certificate-issuer">IBM</p>
+                    <p class="certificate-date">2026</p>
+                    <p class="certificate-description">Completed Statistics 101 course provided by IBM, covering data
+                        analysis,
+                        probability, and statistical concepts.</p>
+                    <div class="certificate-tags">
+
+                    </div>
+                </div>
+                <div class="certificate-actions">
+                    <a href="Screenshot 2026-04-05 102415.png" class="btn small"><i class="fas fa-eye"></i> View</a>
+                    <a href="https://courses.etrain.skillsnetwork.site/certificates/3b44f70001304e3cb6df8b8373834fa2"
+                        class="btn small secondary"><i class="fas fa-external-link-alt"></i> Verify</a>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </section>
+
+    <section id="skills" class="skills section">
+        <div class="skills-bg-glow"></div>
+        <div class="section-header">
+            <span class="skills-badge">MY EXPERTISE</span>
+            <h2 class="skills-title">Skills</h2>
+            <p class="skills-subtitle">Technologies and tools I use to build modern digital experiences.</p>
+        </div>
+
+        <div class="skills-filters">
+            <div class="filter-pill-container">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="frontend">Frontend</button>
+                <button class="filter-btn" data-filter="backend">Backend</button>
+                <button class="filter-btn" data-filter="tools">Tools</button>
+                <button class="filter-btn" data-filter="soft">Soft Skills</button>
+                <div class="filter-indicator"></div>
+            </div>
+        </div>
+
+        <div class="skills-container">
+            <div class="skills-grid" id="skills-grid">
+                <!-- Frontend -->
+                <div class="skill-card-new" data-category="frontend">
+                    <div class="skill-icon-wrapper html">
+                        <i class="fab fa-html5"></i>
+                    </div>
+                    <h3 class="skill-name">HTML5</h3>
+                    <span class="skill-badge expert">Expert</span>
+                </div>
+                <div class="skill-card-new" data-category="frontend">
+                    <div class="skill-icon-wrapper css">
+                        <i class="fab fa-css3-alt"></i>
+                    </div>
+                    <h3 class="skill-name">CSS3</h3>
+                    <span class="skill-badge expert">Expert</span>
+                </div>
+                <div class="skill-card-new" data-category="frontend">
+                    <div class="skill-icon-wrapper js">
+                        <i class="fab fa-js"></i>
+                    </div>
+                    <h3 class="skill-name">JavaScript</h3>
+                    <span class="skill-badge advanced">Advanced</span>
+                </div>
+                <div class="skill-card-new" data-category="frontend">
+                    <div class="skill-icon-wrapper react">
+                        <i class="fab fa-react"></i>
+                    </div>
+                    <h3 class="skill-name">React.js</h3>
+                    <span class="skill-badge advanced">Advanced</span>
+                </div>
+
+                <!-- Backend -->
+                <div class="skill-card-new" data-category="backend">
+                    <div class="skill-icon-wrapper node">
+                        <i class="fab fa-node-js"></i>
+                    </div>
+                    <h3 class="skill-name">Node.js</h3>
+                    <span class="skill-badge advanced">Advanced</span>
+                </div>
+                <div class="skill-card-new" data-category="backend">
+                    <div class="skill-icon-wrapper java">
+                        <i class="fab fa-java"></i>
+                    </div>
+                    <h3 class="skill-name">Java</h3>
+                    <span class="skill-badge advanced">Advanced</span>
+                </div>
+                <div class="skill-card-new" data-category="backend">
+                    <div class="skill-icon-wrapper python">
+                        <i class="fab fa-python"></i>
+                    </div>
+                    <h3 class="skill-name">Python</h3>
+                    <span class="skill-badge advanced">Advanced</span>
+                </div>
+                <div class="skill-card-new" data-category="backend">
+                    <div class="skill-icon-wrapper c">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="skill-name">C</h3>
+                    <span class="skill-badge intermediate">Intermediate</span>
+                </div>
+                <div class="skill-card-new" data-category="backend">
+                    <div class="skill-icon-wrapper sql">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="skill-name">SQL</h3>
+                    <span class="skill-badge intermediate">Intermediate</span>
+                </div>
+
+                <!-- Tools -->
+                <div class="skill-card-new" data-category="tools">
+                    <div class="skill-icon-wrapper tools">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3 class="skill-name">ABAP Tools</h3>
+                    <span class="skill-badge advanced">Advanced</span>
+                </div>
+                <div class="skill-card-new" data-category="tools">
+                    <div class="skill-icon-wrapper vscode">
+                        <i class="fas fa-file-code"></i>
+                    </div>
+                    <h3 class="skill-name">VS Code</h3>
+                    <span class="skill-badge advanced">Advanced</span>
+                </div>
+                <div class="skill-card-new" data-category="tools">
+                    <div class="skill-icon-wrapper intellij">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3 class="skill-name">IntelliJ IDEA</h3>
+                    <span class="skill-badge advanced">Advanced</span>
+                </div>
+                <div class="skill-card-new" data-category="tools">
+                    <div class="skill-icon-wrapper git">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <h3 class="skill-name">Git / GitHub</h3>
+                    <span class="skill-badge advanced">Advanced</span>
+                </div>
+
+                <!-- Soft Skills -->
+                <div class="skill-card-new" data-category="soft">
+                    <div class="skill-icon-wrapper soft">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <h3 class="skill-name">Leadership</h3>
+                    <span class="skill-badge expert">Expert</span>
+                </div>
+                <div class="skill-card-new" data-category="soft">
+                    <div class="skill-icon-wrapper soft">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="skill-name">Communication</h3>
+                    <span class="skill-badge expert">Expert</span>
+                </div>
+                <div class="skill-card-new" data-category="soft">
+                    <div class="skill-icon-wrapper soft">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="skill-name">Teamwork</h3>
+                    <span class="skill-badge advanced">Advanced</span>
+                </div>
+                <div class="skill-card-new" data-category="soft">
+                    <div class="skill-icon-wrapper soft">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="skill-name">Management</h3>
+                    <span class="skill-badge advanced">Advanced</span>
+                </div>
+            </div>
+
+            <div class="skills-footer-badge">
+                <span><i class="fas fa-sparkles"></i> Always learning. Always building.</span>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="projects" class="projects section">
+        <div class="section-header">
+            <h2>Web Projects</h2>
+            <div class="section-line"></div>
+        </div>
+        <div class="projects-container">
+
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="Screenshot 2026-04-21 225532.png" alt="Project 2">
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            <a href="https://aira-ai-taupe.vercel.app/agent" class="btn small"><i
+                                    class="fas fa-eye"></i> Live</a>
+                            <a href="https://github.com/Harsh-Shrivastava1/Aira-AI" class="btn small"><i
+                                    class="fab fa-github"></i> Code</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>AIRA-AI Voice Agent</h3>
+                    <div class="project-description-wrapper">
+                        <p>AIRA is a voice-first AI assistant that enables real-time, human-like conversations directly
+                            in the browser. Built with Vercel serverless functions and modern frontend technologies, it
+                            supports continuous listening, interruptible speech, and dynamic roleplay scenarios.
+                            Designed with a premium UI, AIRA moves beyond traditional chatbots into a fully interactive,
+                            agentic AI experience.</p>
+                        <div class="fade-gradient"></div>
+                    </div>
+                    <button class="show-more-btn">Show More</button>
+                    <div class="project-tags">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="Propvera Logo.png" alt="Project 2">
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            <a href="https://propverse.netlify.app/" class="btn small"><i class="fas fa-eye"></i>
+                                Live</a>
+                            <a href="https://github.com/Harsh-Shrivastava1/PropVerse" class="btn small"><i
+                                    class="fab fa-github"></i> Code</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>PropVera-Real Estate Operating System </h3>
+                    <div class="project-description-wrapper">
+                        <p>PropVerse is a modern B2B SaaS platform that helps builders and property managers manage real
+                            estate operations efficiently. It includes features like project tracking, unit inventory
+                            management, rent automation, tenant management, and financial reporting through a powerful
+                            executive dashboard.Built using React, Vite, Tailwind CSS, and Firebase, the platform
+                            provides secure authentication, real-time data handling, and a responsive user experience.
+                        </p>
+                        <div class="fade-gradient"></div>
+                    </div>
+                    <button class="show-more-btn">Show More</button>
+                    <div class="project-tags">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="Screenshot 2026-04-25 223105.png" alt="Project 2">
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            <a href="https://fleetflow-ruby-nu.vercel.app/" class="btn small"><i class="fas fa-eye"></i>
+                                Live</a>
+                            <a href="https://github.com/Harsh-Shrivastava1/FleetFloww/" class="btn small"><i
+                                    class="fab fa-github"></i> Code</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>FleetFlow – Fleet Management System </h3>
+                    <div class="project-description-wrapper">
+                        <p>FleetFlow is a modern, enterprise-grade fleet management platform designed to streamline
+                            logistics operations through real-time tracking, analytics, and intelligent insights. It
+                            enables fleet managers to monitor vehicles, manage trips, and optimize routes efficiently.
+
+                            Built using React, TypeScript, Firebase, and Tailwind CSS, the platform includes features
+                            like live vehicle tracking, driver and vehicle management, expense tracking, and performance
+                            analytics dashboards.
+
+                            With a focus on scalability and user experience, FleetFlow provides a centralized system to
+                            improve operational efficiency, reduce costs, and enhance decision-making using real-time
+                            data.</p>
+                        <div class="fade-gradient"></div>
+                    </div>
+                    <button class="show-more-btn">Show More</button>
+                    <div class="project-tags">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="flow.png" alt="Project 2">
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            <a href="https://flowwspace.netlify.app/" class="btn small"><i class="fas fa-eye"></i>
+                                Live</a>
+                            <a href="https://github.com/Harsh-Shrivastava1/FlowSpace" class="btn small"><i
+                                    class="fab fa-github"></i> Code</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-info">
+                    <h3>FlowSpace</h3>
+                    <div class="project-description-wrapper">
+                        <p>FlowSpace is full-scale real-time booking application, built with React, Firebase, and
+                            Netlify deployment. It allows users to schedule and reserve workspaces, labs, or parking
+                            seamlessly, while admins manage approvals, availability, and capacity in real time.</p>
+                        <div class="fade-gradient"></div>
+                    </div>
+                    <button class="show-more-btn">Show More</button>
+                    <div class="project-tags">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="homeback.jpg" alt="Project 1">
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            <a href="https://glamgear.netlify.app/" class="btn small"><i class="fas fa-eye"></i>
+                                Live</a>
+                            <a href="https://github.com/Harsh549100/GLAM-GEAR" class="btn small"><i
+                                    class="fab fa-github"></i> Code</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>Glam Gear </h3>
+                    <div class="project-description-wrapper">
+                        <p>Glam Gear was my first-ever coding project - a sleek, modern website built with HTML and CSS
+                            to showcase the world’s most luxurious cars. Designed with smooth animations, a responsive
+                            layout, and high-end visuals, it offers an immersive experience for car enthusiasts to
+                            explore design, performance, and innovation. This project marked the beginning of my web
+                            development journey, helping me build a solid foundation in front-end design and inspiring
+                            me to create more advanced, dynamic applications.</p>
+                        <div class="fade-gradient"></div>
+                    </div>
+                    <button class="show-more-btn">Show More</button>
+                    <div class="project-tags">
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="saharalogo.png" alt="Project 5">
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            <a href="https://sahara-webhelp.netlify.app/" class="btn small"><i class="fas fa-eye"></i>
+                                Live</a>
+                            <a href="https://github.com/Harsh-Shrivastava1/Sahara" class="btn small"><i
+                                    class="fab fa-github"></i> Code</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>Sahara </h3>
+                    <div class="project-description-wrapper">
+                        <p>Sahara is a full-stack platform created to solve real-life challenges in disaster relief and
+                            mental health support. It connects volunteers, NGOs, and affected communities through smart
+                            matching and real-time communication, helping aid reach people faster. The platform aims to
+                            reduce response times by up to 40% and improve access to mental health resources for over
+                            60% of users. This project reflects my passion for using technology to make a meaningful
+                            difference in peoples lives.</p>
+                        <div class="fade-gradient"></div>
+                    </div>
+                    <button class="show-more-btn">Show More</button>
+                    <div class="project-tags">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="projects-container">
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="YatraSetu.png" alt="Project 2">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://yatrasetu-two.vercel.app/" class="btn small"><i class="fas fa-eye"></i>
+                                    Live</a>
+                                <a href="https://github.com/Harsh-Shrivastava1/YatraSetu" class="btn small"><i
+                                        class="fab fa-github"></i> Code</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>YatraSetu</h3>
+                        <div class="project-description-wrapper">
+                            <p>YatraSetu is an AI-driven rural travel assistant built entirely using an online
+                                development tool with TypeScript, HTML, and CSS. It offers emotion-based itinerary
+                                planning, offline rural maps, multilingual voice navigation, real-time translation,
+                                cultural routes, community reviews, safety tools, and smart utilities like an expense
+                                tracker and packing assistant—making rural Gujarat travel simple, safe, and deeply
+                                authentic.</p>
+                            <div class="fade-gradient"></div>
+                        </div>
+                        <button class="show-more-btn">Show More</button>
+                        <div class="project-tags">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="splitchain.png" alt="Project 4">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://splittchain.netlify.app/" class="btn small"><i class="fas fa-eye"></i>
+                                    Live</a>
+                                <a href="https://github.com/Harsh549100/SplitChain" class="btn small"><i
+                                        class="fab fa-github"></i> Code</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>SplitChain</h3>
+                        <div class="project-description-wrapper">
+                            <p>SplitChain is a Web3 group expense splitter developed for the Base India Hackathon. Built
+                                with HTML, CSS, and TypeScript, it leverages Ethereum, Coinbase Wallet, and USDC to
+                                enable secure, on-chain payments. Featuring localStorage for state management and a
+                                clean, intuitive UI, SplitChain delivers transparent expense tracking on the blockchain,
+                                making group payments seamless and trustworthy.</p>
+                            <div class="fade-gradient"></div>
+                        </div>
+                        <button class="show-more-btn">Show More</button>
+                        <div class="project-tags">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="moneyminder.png" alt="Project 2">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://moneyminderr.netlify.app/" class="btn small"><i class="fas fa-eye"></i>
+                                    Live</a>
+                                <a href="https://github.com/Harsh549100/Money-Minder" class="btn small"><i
+                                        class="fab fa-github"></i> Code</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>MoneyMinder </h3>
+                        <div class="project-description-wrapper">
+                            <p>MoneyMinder is a smart personal finance platform that helps users manage their money
+                                through features like Smart Budgeting, Expense Tracking, and Savings Goals. It includes
+                                an interactive budget calculator, spending insights, and a goal tracker to support
+                                better financial planning. Designed with a clean UI, it makes personal finance simple
+                                and intuitive.</p>
+                            <div class="fade-gradient"></div>
+                        </div>
+                        <button class="show-more-btn">Show More</button>
+                        <div class="project-tags">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="Portfolio.png" alt="Project 3">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://harshshrivastav.netlify.app/" class="btn small"><i
+                                        class="fas fa-eye"></i> Live</a>
+                                <a href="https://github.com/Harsh-Shrivastava1/Portfolio" class="btn small"><i
+                                        class="fab fa-github"></i> Code</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Personal Portfolio</h3>
+                        <div class="project-description-wrapper">
+                            <p>A fully responsive and performance-optimized portfolio, designed and developed end-to-end
+                                by me using HTML, CSS, and JavaScript. It highlights my projects, certifications, and
+                                technical skills with smooth navigation, mobile-first layouts, fast load times, and
+                                accessible, semantic code showcasing both my personal brand and my frontend development
+                                expertise.</p>
+                            <div class="fade-gradient"></div>
+                        </div>
+                        <button class="show-more-btn">Show More</button>
+                        <div class="project-tags">
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+    </section>
+
+    <section id="apps-projects" class="apps-projects section">
+        <div class="section-header">
+            <h2>Apps Projects</h2>
+            <div class="section-line"></div>
+        </div>
+        <div class="projects-container">
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="moneyflow.png" alt="MoneyFlow">
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            <a href="https://github.com/Harsh-Shrivastava1/MoneyFlow" class="btn small" target="_blank">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>MoneyFlow</h3>
+                    <div class="project-description-wrapper">
+                        <p>MoneyFlow is a modern Android app built with Kotlin, MVVM, Room Database, Coroutines/Flow,
+                            and
+                            Material 3 UI, designed to simplify personal finance management. It helps users track daily
+                            expenses, create saving goals, monitor real-time progress, and gain smart spending insights
+                            through a clean, offline-first experience. The app features analytics dashboards,
+                            category-based
+                            expense tracking, goal progress indicators, and smooth Material animations—making budgeting
+                            simple, intuitive, and completely secure without requiring any backend.</p>
+                        <div class="fade-gradient"></div>
+                    </div>
+                    <button class="show-more-btn">Show More</button>
+                    <div class="project-tags">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="WhatsApp Image 2026-04-05 at 10.41.32.jpeg" alt="BreakPoint">
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            <a href="https://github.com/Harsh-Shrivastava1/BreakPoint" class="btn small"
+                                target="_blank">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>BreakPoint</h3>
+                    <div class="project-description-wrapper">
+                        <p>BreakPoint is an interactive iOS learning app built using SwiftUI and Xcode, designed to help
+                            developers understand common programming bugs through real-time visual simulations. Instead
+                            of
+                            relying on theory, the app allows users to experience issues like infinite loops, race
+                            conditions, deadlocks, and state mismatches in an intuitive and engaging way.
+
+                            Each “world” focuses on a specific bug, where users can observe how the issue occurs,
+                            understand
+                            its impact, and apply fixes instantly. The app uses state-driven UI, animations, and
+                            interactive
+                            logic to clearly demonstrate how code behaves under different conditions.
+
+                            Tech Stack: SwiftUI, Swift, Xcode, State Management (SwiftUI), Animations & Transitions
+
+                            With a clean UI, smooth transitions, and a focus on clarity, BreakPoint transforms complex
+                            debugging concepts into visual experiences, helping users build strong problem-solving
+                            intuition.</p>
+                        <div class="fade-gradient"></div>
+                    </div>
+                    <button class="show-more-btn">Show More</button>
+                    <div class="project-tags">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+
+    <section id="contact" class="contact section">
+        <div class="section-header">
+            <h2>Get In Touch</h2>
+            <h3>Let's build something great together!</h3>
+            <div class="section-line"></div>
+        </div>
+
+        <div class="contact-content">
+            <div class="contact-info">
+                <div class="contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email</h3>
+                    <a href="mailto:hshrivastava23032007@gmail.com">hshrivastava23032007@gmail.com</a>
+                </div>
+                <div class="contact-card">
+                    <i class="fab fa-linkedin"></i>
+                    <h3>LinkedIn</h3>
+                    <a href="https://www.linkedin.com/in/harsh-shrivastava-40b240313/" target="_blank">Connect with
+                        me</a>
+                </div>
+                <div class="contact-card">
+                    <i class="fab fa-github"></i>
+                    <h3>GitHub</h3>
+                    <a href="https://github.com/Harsh-Shrivastava1" target="_blank">See my repos</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <div class="social-links">
+        <a href="https://www.linkedin.com/in/harsh-shrivastava-40b240313/" class="social-link" target="_blank">
+            <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://github.com/Harsh-Shrivastava1/" class="social-link" target="_blank">
+
+            <i class="fab fa-github"></i>
+        </a>
+        <a href="https://x.com/Harsh549100" class="social-link" target="_blank">
+            <i class="fab fa-twitter"></i>
+        </a>
+    </div>
+
+
+
+
+    <footer>
+        <div class="footer-nav">
+            <button class="footer-btn" data-modal="privacy-modal">Privacy Policy</button>
+            <button class="footer-btn" data-modal="terms-modal">Terms of Use</button>
+            <button class="footer-btn" data-modal="design-modal">Design Rights</button>
+            <button class="footer-btn" data-modal="source-modal">Source Usage</button>
+        </div>
+        <p>&copy; 2026 Harsh Shrivastava. All rights reserved.</p>
+    </footer>
+
+    <!-- Global Modal Overlay -->
+    <div class="modal-overlay" id="modal-overlay"></div>
+
+    <!-- Legal Modals -->
+    <div class="legal-modal" id="privacy-modal">
+        <button class="modal-close" aria-label="Close modal"><i class="fas fa-times"></i></button>
+        <h3>Privacy Policy</h3>
+        <div class="modal-content">
+            <ul>
+                <li>This portfolio does not collect sensitive personal information.</li>
+                <li>The contact form is used solely for professional communication.</li>
+                <li>No data selling or unauthorized sharing occurs on this site.</li>
+                <li>User privacy is strictly respected at all times.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="legal-modal" id="terms-modal">
+        <button class="modal-close" aria-label="Close modal"><i class="fas fa-times"></i></button>
+        <h3>Terms of Use</h3>
+        <div class="modal-content">
+            <ul>
+                <li>Portfolio content is intended for personal and professional viewing only.</li>
+                <li>Unauthorized redistribution of website content is strictly prohibited.</li>
+                <li>Users should not misuse website resources or attempt to disrupt service.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="legal-modal" id="design-modal">
+        <button class="modal-close" aria-label="Close modal"><i class="fas fa-times"></i></button>
+        <h3>Design Rights</h3>
+        <div class="modal-content">
+            <ul>
+                <li>The website UI/UX design is original work.</li>
+                <li>Copying the design structure or assets without permission is prohibited.</li>
+                <li>The visual identity and branding belong exclusively to the portfolio owner.</li>
+                <li>Design inspiration is allowed, but direct duplication is prohibited.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="legal-modal" id="source-modal">
+        <button class="modal-close" aria-label="Close modal"><i class="fas fa-times"></i></button>
+        <h3>Source Usage</h3>
+        <div class="modal-content">
+            <ul>
+                <li>The source code for this portfolio is protected.</li>
+                <li>Unauthorized copying, reuploading, or reselling is strictly prohibited.</li>
+                <li>Educational inspiration and viewing is permitted.</li>
+                <li>Cloning or reproducing the full portfolio without explicit permission is not allowed.</li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
