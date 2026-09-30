@@ -335,7 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //  Typewriter effect
     const typewriter = new Typewriter('.typewriter', {
-        strings: ['Aspiring Software Developer.', 'Code & Design Enthusiast.'],
+        strings: ['Full-Stack Developer & Software Engineer'],
         autoStart: true,
         loop: true,
         delay: 75,
@@ -786,8 +786,72 @@ document.addEventListener("DOMContentLoaded", () => {
     //  Run animations
     initSkillsSection();
     animateAboutSection();
+    animateExperienceSection();
     timelineAnimation();
 });
+
+// ---- Experience Section GSAP Animations ----
+function animateExperienceSection() {
+    const expSection = document.querySelector('#experience');
+    if (!expSection) return;
+
+    // 1. Section header — badge, heading, subheading stagger
+    const expHeader = expSection.querySelector('.exp-section-header');
+    if (expHeader) {
+        gsap.from(expHeader.children, {
+            scrollTrigger: {
+                trigger: expHeader,
+                start: 'top 84%',
+                once: true
+            },
+            y: 22,
+            opacity: 0,
+            duration: 0.7,
+            stagger: 0.14,
+            ease: 'power2.out',
+            clearProps: 'all'
+        });
+    }
+
+    // 2. Each experience card — staggered fade + gentle rise
+    const expCards = expSection.querySelectorAll('.exp-card');
+    expCards.forEach((card, index) => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: 'top 86%',
+                once: true
+            },
+            opacity: 0,
+            y: 24,
+            duration: 0.65,
+            delay: index * 0.12,
+            ease: 'power2.out',
+            clearProps: 'all'
+        });
+
+        // 3. Tech chips — cascade in after card
+        const chips = card.querySelectorAll('.exp-chips span');
+        if (chips.length) {
+            gsap.from(chips, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 88%',
+                    once: true
+                },
+                opacity: 0,
+                y: 8,
+                scale: 0.92,
+                duration: 0.3,
+                stagger: 0.03,
+                delay: index * 0.12 + 0.25,
+                ease: 'power1.out',
+                clearProps: 'all'
+            });
+        }
+    });
+}
+
 
 
 // Split text animation
