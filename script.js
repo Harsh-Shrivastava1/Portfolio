@@ -334,13 +334,16 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     //  Typewriter effect
-    const typewriter = new Typewriter('.typewriter', {
-        strings: ['Full-Stack Developer & Software Engineer'],
-        autoStart: true,
-        loop: true,
-        delay: 75,
-        deleteSpeed: 50
-    });
+    const typewriterElement = document.querySelector('.typewriter');
+    if (typewriterElement) {
+        const typewriter = new Typewriter(typewriterElement, {
+            strings: ['Full-Stack Developer & Software Engineer'],
+            autoStart: true,
+            loop: true,
+            delay: 75,
+            deleteSpeed: 50
+        });
+    }
 
     //  Hero section animations 
     const tl = gsap.timeline();
